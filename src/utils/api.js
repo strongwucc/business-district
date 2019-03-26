@@ -1,3 +1,6 @@
 export default {
-  activities: 'activities'
+  banners: 'banners',
+  merchantTypes: 'merchants/types',
+  activities: 'activities',
+  hotMerchants: 'merchants/hots'
 }

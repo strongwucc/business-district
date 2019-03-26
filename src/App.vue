@@ -76,7 +76,7 @@ export default {
     height: 100%;
     .tabbar {
       display: flex;
-      position: absolute;
+      position: fixed;
       justify-content: space-between;
       align-items: center;
       bottom: 0;
