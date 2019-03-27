@@ -46,43 +46,48 @@
             <div class="item"><img src=""/></div>
           </div>
         </div>
-        <div class="merchants">
+        <div class="merchants" v-if="hotMerchants.length > 0">
           <div class="title">
             <span class="main-title">热门商户</span>
             <span class="sub-title">精选优质商户</span>
           </div>
           <div class="content">
-            <div class="item">
+            <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex">
               <div class="logo">
                 <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
               </div>
               <div class="name">星巴克(虹桥国际商务 广场店)</div>
               <div class="price">￥114/人</div>
             </div>
-            <div class="item">
-              <div class="logo">
-                <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
-              </div>
-              <div class="name">必胜客(虹桥店)</div>
-              <div class="price">￥280/人</div>
-            </div>
-            <div class="item">
-              <div class="logo">
-                <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
-              </div>
-              <div class="name">威尔顿大酒店</div>
-              <div class="price">￥114/人</div>
-            </div>
-            <div class="item">
-              <div class="logo">
-                <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
-              </div>
-              <div class="name">levis(合川路店)</div>
-              <div class="price">￥114/人</div>
-            </div>
+            <!--<div class="item">-->
+              <!--<div class="logo">-->
+                <!--<img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>-->
+              <!--</div>-->
+              <!--<div class="name">必胜客(虹桥店)</div>-->
+              <!--<div class="price">￥280/人</div>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+              <!--<div class="logo">-->
+                <!--<img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>-->
+              <!--</div>-->
+              <!--<div class="name">威尔顿大酒店</div>-->
+              <!--<div class="price">￥114/人</div>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+              <!--<div class="logo">-->
+                <!--<img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>-->
+              <!--</div>-->
+              <!--<div class="name">levis(合川路店)</div>-->
+              <!--<div class="price">￥114/人</div>-->
+            <!--</div>-->
           </div>
         </div>
-        <div class="padding"></div>
+        <div class="padding">
+          <div class="pull-notice" v-show="showLoading === false">
+            —— {{pullTxt}} ——
+          </div>
+          <load-more v-show="showLoading" tip="正在加载"></load-more>
+        </div>
       </div>
     </div>
   </div>
@@ -92,10 +97,10 @@
 import axios from 'axios'
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
-import { Swiper, SwiperItem } from 'vux'
+import { Swiper, SwiperItem, LoadMore } from 'vux'
 export default {
   name: 'home',
-  components: { Swiper, SwiperItem },
+  components: { Swiper, SwiperItem, LoadMore },
   inject: ['reload'], // 引入方法
   data () {
     return {
@@ -117,12 +122,25 @@ export default {
       merchantTypes: [],
       activities: [],
       hotMerchants: [],
+      pageLimit: 4,
       currentPage: 1,
       totalPage: 1,
-      scroll: {}
+      scroll: {},
+      pullUp: true,
+      showLoading: false
     }
   },
   computed: {
+    pullTxt: function () {
+      let txt = ''
+      if (this.pullUp === true && this.showLoading === false) {
+        txt = '滑动加载更多'
+      }
+      if (this.pullUp === false) {
+        txt = '已经到底啦'
+      }
+      return txt
+    }
   },
   watch: {
   },
@@ -136,13 +154,18 @@ export default {
   methods: {
     getInitData () {
       this.$http.all([this.getBanners(), this.getMerchantTypes(), this.getActivities(), this.getHotMerchants()]).then(axios.spread((bannerRes, merchantTypesRes, activitiesRes, hotMerchantsRes) => {
-//        this.banners = bannerRes.data
+        // this.banners = bannerRes.data
         this.merchantTypes = merchantTypesRes.data
         this.activities = activitiesRes.data
         this.hotMerchants = hotMerchantsRes.data
         this.currentPage = hotMerchantsRes.meta.pagination.current_page
-        this.totalPage = hotMerchantsRes.meta.pagination.total_page
-        this.initScroll()
+        this.totalPage = hotMerchantsRes.meta.pagination.total_pages
+        if (this.totalPage <= this.currentPage) {
+          this.pullUp = false
+        }
+        this.$nextTick(() => {
+          this.initScroll()
+        })
       }))
     },
     getBanners () {
@@ -155,7 +178,25 @@ export default {
       return this.$http.post(this.API.activities)
     },
     getHotMerchants () {
-      return this.$http.post(this.API.hotMerchants)
+      return this.$http.post(this.API.hotMerchants, {page: this.currentPage, page_limit: this.pageLimit})
+    },
+    loadHotMerchants () {
+      if (this.pullUp === false) {
+        return false
+      }
+      this.showLoading = true
+      this.$http.post(this.API.hotMerchants, {page: this.currentPage + 1, page_limit: this.pageLimit}).then(res => {
+        this.showLoading = false
+        this.hotMerchants = this.hotMerchants.concat(res.data)
+        this.currentPage = res.meta.pagination.current_page
+        this.totalPage = res.meta.pagination.total_pages
+        if (this.totalPage <= this.currentPage) {
+          this.pullUp = false
+        }
+        this.$nextTick(() => {
+          this.refresh()
+        })
+      })
     },
     // 初始化滚动
     initScroll () {
@@ -175,6 +216,19 @@ export default {
         zoom: false
       }
       this.scroll = new BScroll(this.$refs.wrapper, options)
+
+      if (this.pullUp) {
+        this.scroll.on('scrollEnd', () => {
+          // 滚动到底部
+          if (this.scroll.y <= (this.scroll.maxScrollY + 10)) {
+            this.loadHotMerchants()
+          }
+        })
+      }
+    },
+    refresh () {
+      // 代理better-scroll的refresh方法
+      this.scroll && this.scroll.refresh()
     }
   }
 }
@@ -356,7 +410,14 @@ export default {
           }
         }
         .padding {
-          height: 177px;
+          height: 118px;
+          .pull-notice {
+            height: 69px;
+            line-height: 69px;
+            font-size:12px;
+            font-weight:400;
+            color:rgba(204,204,204,1);
+          }
         }
       }
     }
