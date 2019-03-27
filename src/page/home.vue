@@ -1,15 +1,19 @@
 <template>
   <div class="home-page">
-    <div class="scroll-search" v-show="scrolling">
-      <div class="search-box" @click.stop="goSearch">
+    <transition name="fade">
+      <div class="scroll-search" v-show="scrolling">
+        <div class="search-box" @click.stop="goSearch">
+          <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
+          <span class="notice">输入商户名称</span>
+        </div>
+      </div>
+    </transition>
+    <transition name="fade">
+      <div class="search" v-show="!scrolling" @click.stop="goSearch">
         <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
         <span class="notice">输入商户名称</span>
       </div>
-    </div>
-    <div class="search" v-show="!scrolling" @click.stop="goSearch">
-      <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
-      <span class="notice">输入商户名称</span>
-    </div>
+    </transition>
     <div ref="wrapper" class="list-wrapper">
       <div class="scroll-content">
         <div class="banners">
@@ -249,6 +253,14 @@ export default {
     from {opacity:1;}
     to {opacity:0;}
   }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
+
   .home-page {
     height: 100%;
     background:rgba(255,255,255,1);

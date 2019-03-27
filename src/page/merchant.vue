@@ -1,15 +1,19 @@
 <template>
   <div class="merchant-page">
-    <div class="scroll-search" v-show="scrolling">
-      <div class="search-box" @click.stop="goSearch">
+    <transition name="fade">
+      <div class="scroll-search" v-show="scrolling">
+        <div class="search-box" @click.stop="goSearch">
+          <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
+          <span class="notice">输入商户名称</span>
+        </div>
+      </div>
+    </transition>
+    <transition name="fade">
+      <div class="search" v-show="!scrolling">
         <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
         <span class="notice">输入商户名称</span>
       </div>
-    </div>
-    <div class="search" v-show="!scrolling">
-      <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
-      <span class="notice">输入商户名称</span>
-    </div>
+    </transition>
     <div class="navs-stopping" :class="{'navs-active': navStop}">
       <div class="nav type">
         <span class="name">全部</span>
@@ -196,6 +200,14 @@ export default {
     from {opacity:1;}
     to {opacity:0;}
   }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
+
   .merchant-page {
     height: 100%;
     background: #F2F4F7;
@@ -243,7 +255,6 @@ export default {
       height:35px;
       background:rgba(255,255,255,1);
       box-shadow:0px 1px 5px rgba(0,0,0,0.14);
-      opacity:0.9;
       border-radius:17.5px;
       z-index: 99;
       .icon {
@@ -290,6 +301,7 @@ export default {
     .list-wrapper {
       position: relative;
       height: 100%;
+      overflow: hidden;
       .scroll-content {
         .banner {
           width: 100%;
