@@ -86,6 +86,7 @@ export default {
       background:rgba(255,255,255,1);
       box-shadow:0px -1px 5px rgba(0,0,0,0.1);
       .tabbar-item {
+        padding-top: 6px;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -98,7 +99,7 @@ export default {
           }
         }
         .txt {
-          margin-top: 6px;
+          margin-top: 1px;
           height:14px;
           font-size:10px;
           font-weight:bold;
