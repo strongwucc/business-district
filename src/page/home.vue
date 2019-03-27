@@ -1,6 +1,12 @@
 <template>
   <div class="home-page">
-    <div class="search">
+    <div class="scroll-search" v-show="scrolling">
+      <div class="search-box" @click.stop="goSearch">
+        <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
+        <span class="notice">输入商户名称</span>
+      </div>
+    </div>
+    <div class="search" v-show="!scrolling" @click.stop="goSearch">
       <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
       <span class="notice">输入商户名称</span>
     </div>
@@ -113,7 +119,8 @@ export default {
       totalPage: 1,
       scroll: {},
       pullUp: true,
-      showLoading: false
+      showLoading: false,
+      scrolling: false
     }
   },
   computed: {
@@ -205,6 +212,14 @@ export default {
           }
         })
       }
+
+      this.scroll.on('scroll', (pos) => {
+        if (pos.y < 0) {
+          this.scrolling = true
+        } else {
+          this.scrolling = false
+        }
+      })
     },
     refresh () {
       // 代理better-scroll的refresh方法
@@ -212,6 +227,9 @@ export default {
     },
     bannerUrl (url) {
       window.location.href = url
+    },
+    goSearch () {
+      this.$router.push('/merchant')
     }
   }
 }
@@ -234,6 +252,39 @@ export default {
   .home-page {
     height: 100%;
     background:rgba(255,255,255,1);
+    .scroll-search {
+      height:60px;
+      width: 100%;
+      background:rgba(255,255,255,1);
+      box-shadow:1px 4px 5px rgba(0,0,0,0.05);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 99;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .search-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width:320px;
+        height:35px;
+        background:rgba(249,249,249,1);
+        border-radius:17px;
+        .icon {
+          width: 14px;
+          height: 14px;
+        }
+        .notice {
+          margin-left: 4px;
+          font-size:14px;
+          font-weight:400;
+          line-height:17px;
+          color:rgba(153,153,153,1);
+        }
+      }
+    }
     .search {
       z-index: 99;
       display: flex;
@@ -246,7 +297,6 @@ export default {
       height:35px;
       background:rgba(255,255,255,1);
       box-shadow:0px 1px 5px rgba(0,0,0,0.14);
-      opacity:1;
       border-radius:17px;
       .icon {
         width: 14px;
