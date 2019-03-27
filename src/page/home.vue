@@ -9,7 +9,7 @@
         <div class="banners">
           <swiper auto  dots-position="center">
             <swiper-item v-for="(item, index) in banners" :key="index">
-              <img :src="item.pic"/>
+              <img :src="item.pic" @click.stop="bannerUrl(item.url)"/>
             </swiper-item>
           </swiper>
         </div>
@@ -104,21 +104,7 @@ export default {
   inject: ['reload'], // 引入方法
   data () {
     return {
-      banners: [
-        {
-          url: 'javascript:',
-          pic: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-          name: '送你一朵fua'
-        }, {
-          url: 'javascript:',
-          pic: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-          name: '送你一辆车'
-        }, {
-          url: 'javascript:',
-          pic: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg', // 404
-          name: '送你一次旅行'
-        }
-      ],
+      banners: [],
       merchantTypes: [],
       activities: [],
       hotMerchants: [],
@@ -207,13 +193,7 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        scrollbar: false,
-        pullUpLoad: true,
-        startY: 0,
-        freeScroll: false,
-        mouseWheel: false,
-        bounce: true,
-        zoom: false
+        pullUpLoad: true
       }
       this.scroll = new BScroll(this.$refs.wrapper, options)
 
@@ -229,6 +209,9 @@ export default {
     refresh () {
       // 代理better-scroll的refresh方法
       this.scroll && this.scroll.refresh()
+    },
+    bannerUrl (url) {
+      window.location.href = url
     }
   }
 }
