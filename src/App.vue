@@ -85,6 +85,7 @@ export default {
       padding: 0px 45px;
       background:rgba(255,255,255,1);
       box-shadow:0px -1px 5px rgba(0,0,0,0.1);
+      z-index: 99;
       .tabbar-item {
         padding-top: 6px;
         height: 100%;
