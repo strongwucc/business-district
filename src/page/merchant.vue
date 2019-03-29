@@ -195,8 +195,8 @@ export default {
       let postData = {
         search_key: this.searchKey,
         type_code: this.typeCode,
-        per_cost_min: this.perCostMin,
-        per_cost_max: this.perCostMax,
+        per_cost_min: this.costMin ? this.costMin : this.perCostMin,
+        per_cost_max: this.costMax ? this.costMax : this.perCostMax,
         page_limit: this.pageLimit
       }
       this.$http.post(this.API.merchants + '?page=' + page, postData).then(res => {
@@ -230,6 +230,7 @@ export default {
       })
     },
     setAllType () {
+      this.pullUp = true
       this.pCode = 0
       this.typeName = '全部'
       this.cCode = 0
@@ -243,6 +244,7 @@ export default {
       this.getMerchants()
     },
     setChildType (cCode, name) {
+      this.pullUp = true
       this.cCode = cCode
       this.typeCode = cCode
       this.typeName = name
@@ -327,6 +329,7 @@ export default {
         this.scroll.scrollTo(0, -60, 1)
       }
       this.screenVisible = !this.screenVisible
+      this.actionIndex = 0
     },
     setSearchPrice (perCostMin, perCostMax, avgIndex) {
       this.perCostMin = perCostMin
@@ -342,12 +345,17 @@ export default {
       this.actionIndex = 1
     },
     confirmScreen () {
+      this.pullUp = true
       this.actionIndex = 2
+      this.currentPage = 0
+      this.totalPage = 1
+      this.merchants = []
+      this.hideAll()
+      this.getMerchants()
     },
     hideAll () {
       this.merchantTypesVisible = false
       this.screenVisible = false
-      this.actionIndex = 0
     },
     goSearch () {
       this.$router.push('/merchant_search')
