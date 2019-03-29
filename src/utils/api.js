@@ -3,5 +3,6 @@ export default {
   merchantTypes: 'merchants/types',
   activities: 'activities',
   hotMerchants: 'merchants/hots',
-  merchants: 'merchants'
+  merchants: 'merchants',
+  keywords: 'search_keywords'
 }

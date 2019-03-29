@@ -179,6 +179,9 @@ export default {
     }
   },
   created () {
+    if (this.$route.query.key) {
+      this.searchKey = this.$route.query.key
+    }
   },
   mounted () {
     this.getMerchants()
