@@ -62,34 +62,13 @@
             <span class="sub-title">精选优质商户</span>
           </div>
           <div class="content">
-            <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex">
+            <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex" @click.stop="viewMerchantDetail(merchant.mer_id)">
               <div class="logo">
                 <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
               </div>
               <div class="name">星巴克(虹桥国际商务 广场店)</div>
               <div class="price">￥114/人</div>
             </div>
-            <!--<div class="item">-->
-              <!--<div class="logo">-->
-                <!--<img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>-->
-              <!--</div>-->
-              <!--<div class="name">必胜客(虹桥店)</div>-->
-              <!--<div class="price">￥280/人</div>-->
-            <!--</div>-->
-            <!--<div class="item">-->
-              <!--<div class="logo">-->
-                <!--<img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>-->
-              <!--</div>-->
-              <!--<div class="name">威尔顿大酒店</div>-->
-              <!--<div class="price">￥114/人</div>-->
-            <!--</div>-->
-            <!--<div class="item">-->
-              <!--<div class="logo">-->
-                <!--<img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>-->
-              <!--</div>-->
-              <!--<div class="name">levis(合川路店)</div>-->
-              <!--<div class="price">￥114/人</div>-->
-            <!--</div>-->
           </div>
         </div>
         <div class="padding">
@@ -234,6 +213,9 @@ export default {
     },
     goSearch () {
       this.$router.push('/merchant')
+    },
+    viewMerchantDetail (merId) {
+      this.$router.push({name: 'merchant_detail', params: {merId: merId}})
     }
   }
 }

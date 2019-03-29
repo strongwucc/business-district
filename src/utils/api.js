@@ -4,5 +4,6 @@ export default {
   activities: 'activities',
   hotMerchants: 'merchants/hots',
   merchants: 'merchants',
-  keywords: 'search_keywords'
+  keywords: 'search_keywords',
+  merchantDetail: 'merchant'
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Http from './http'
 import NP from 'number-precision'
+import { uploadUrl } from '../config/env'
 // 保留两位有效数字
 Vue.filter('formatMoney', function (value, status) {
   if (value == 'undefined' || value === '' || value == null) return 0
@@ -101,11 +102,10 @@ Vue.filter('mobileformat', function (item) {
 
 // 图片路径
 Vue.filter('upload', function (item) {
-  var http = new Http()
   if (/^http(.*)$/.test(item)) {
     return item
   } else {
-    return http.upload_path + item
+    return uploadUrl + item
   }
 })
 

@@ -8,7 +8,7 @@
  */
 let rootUrl = ''
 let baseUrl = ''
-let oauthUrl = ''
+let uploadUrl = 'http://yanshi.yklsq.etonepay.com'
 let baseRedirectUrl = 'http://' + window.location.host + '/#'
 
 if (process.env.NODE_ENV === 'development') {
@@ -24,6 +24,6 @@ if (process.env.NODE_ENV === 'development') {
 export {
   rootUrl,
   baseUrl,
-  oauthUrl,
+  uploadUrl,
   baseRedirectUrl
 }
