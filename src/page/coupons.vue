@@ -32,13 +32,13 @@
           </div>
           <div class="l_right">
             <div class="got" v-if="coupon.user_count > 0">
-              <img v-if="coupon.card_type === 'CASH'" src="../assets/img/merchant_detail/tab_yigou@2x.png"/>
+              <img v-if="coupon.is_buy === '2'" src="../assets/img/merchant_detail/tab_yigou@2x.png"/>
               <img src="../assets/img/merchant_detail/tab_yilin@2x.png" v-else/>
             </div>
             <div class="money" v-if="coupon.is_buy === '2'">售价：<span>{{coupon.sale_price|formatMoney}}</span>元</div>
             <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="">立即使用</div>
-            <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id)">购买</div>
-            <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id)">领取</div>
+            <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">购买</div>
+            <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">领取</div>
             <div v-else-if="coupon.quantity <= 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">已领完</div>
             <div class="notice" v-if="coupon.quantity > 999">剩余<span>999</span>张</div>
             <div class="notice" v-else-if="coupon.quantity > 0 && coupon.quantity <= 999">剩余<span>{{coupon.quantity}}</span>张</div>
@@ -189,9 +189,25 @@ export default {
       this.coupons = []
       this.getCoupons()
     },
-    receive (pcid) {
+    receive (pcid, couponIndex) {
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
-        console.log(res)
+        console.log(typeof res.payUrl)
+        if (typeof res.payUrl === 'undefined') {
+          let message = res.message ? res.message : '未知错误'
+          this.$vux.toast.show({
+            type: 'text',
+            text: message,
+            position: 'middle'
+          })
+        } else {
+          this.$vux.toast.show({
+            type: 'text',
+            text: '领取成功',
+            position: 'middle'
+          })
+          this.coupons[couponIndex].quantity = this.coupons[couponIndex].quantity - 1
+          this.coupons[couponIndex].user_count = this.coupons[couponIndex].user_count + 1
+        }
       })
     }
   }
