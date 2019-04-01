@@ -12,7 +12,7 @@
     </div>
     <div ref="couponsWrapper" class="coupons-wrapper">
       <ul class="wrapper-content">
-        <li class="item" v-for="(coupon, couponIndex) in coupons" :key="couponIndex">
+        <li class="item" v-for="(coupon, couponIndex) in coupons" :key="couponIndex" @click.stop="showCouponDetail(coupon.id)">
           <div class="li_left">
             <div class="coupon_icon">
               <img :src="coupon.logo|upload">
@@ -209,6 +209,9 @@ export default {
           this.coupons[couponIndex].user_count = this.coupons[couponIndex].user_count + 1
         }
       })
+    },
+    showCouponDetail (pcId) {
+      this.$router.push({path: 'coupon_detail/' + pcId})
     }
   }
 }

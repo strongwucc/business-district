@@ -8,5 +8,6 @@ export default {
   merchantDetail: 'merchant',
   fav: 'fav',
   coupons: 'coupons',
-  receiveCoupon: 'coupon/receive'
+  receiveCoupon: 'coupon/receive',
+  couponDetail: 'coupon/detail'
 }

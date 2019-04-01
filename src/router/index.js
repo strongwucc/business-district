@@ -6,6 +6,7 @@ const Merchant = r => require.ensure([], () => r(require('@/page/merchant')), 'm
 const MerchantSearch = r => require.ensure([], () => r(require('@/page/merchantSearch')), 'merchant_search') // 商户搜索
 const MerchantDetail = r => require.ensure([], () => r(require('@/page/merchantDetail')), 'merchant_detail') // 商户详情
 const Coupons = r => require.ensure([], () => r(require('@/page/coupons')), 'coupons') // 领券中心
+const CouponDetail = r => require.ensure([], () => r(require('@/page/couponDetail')), 'coupon_detail') // 优惠券详情
 const Center = r => require.ensure([], () => r(require('@/page/center')), 'center') // 个人中心
 
 Vue.use(Router)
@@ -65,6 +66,16 @@ export default new Router({
       meta: {
         auth: 0,
         title: '领券中心'
+      }
+    },
+
+    {
+      path: '/coupon_detail/:pcId',
+      name: 'coupon_detail',
+      component: CouponDetail,
+      meta: {
+        auth: 0,
+        title: '优惠券详情'
       }
     },
 
