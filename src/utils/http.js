@@ -55,8 +55,20 @@ export default class http {
           resolve(result.data)
         })
         .catch((error) => {
-          console.log(error)
-          resolve({status: '6000', msg: '网络出错啦'})
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            resolve(error.response.data)
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            resolve({status: '6000', msg: '网络出错啦:' + error.request})
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            resolve({status: '6000', msg: '网络出错啦:' + error.message})
+          }
+          console.log(error.config)
         })
     })
     return promise

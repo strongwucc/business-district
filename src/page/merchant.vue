@@ -202,7 +202,9 @@ export default {
         per_cost_max: this.costMax ? this.costMax : this.perCostMax,
         page_limit: this.pageLimit
       }
+      this.showLoading = true
       this.$http.post(this.API.merchants + '?page=' + page, postData).then(res => {
+        this.showLoading = false
         this.merchants = this.merchants.concat(res.data)
         this.currentPage = res.meta.pagination.current_page
         this.totalPage = res.meta.pagination.total_pages

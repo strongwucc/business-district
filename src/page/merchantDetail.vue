@@ -13,8 +13,14 @@
           <div class="name">
             <div class="txt">{{merchant.name}}</div>
             <div class="fav" @click.stop="doFav(merchant.mer_id)">
-              <img src="../assets/img/base/icon_collection_gray@2x.png"/>
-              <span>收藏</span>
+              <template v-if="merchant.is_fav === 0">
+                <img src="../assets/img/base/icon_collection_gray@2x.png"/>
+                <span>收藏</span>
+              </template>
+              <template v-if="merchant.is_fav === 1">
+                <img src="../assets/img/base/icon_collection_high@2x.png"/>
+                <span>已收藏</span>
+              </template>
             </div>
           </div>
           <div class="price">人均 ￥{{merchant.cost}}/人</div>
@@ -235,7 +241,7 @@ export default {
     },
     doFav (merId) {
       this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
-        console.log(res)
+        this.merchant.is_fav = this.merchant.is_fav === 0 ? 1 : 0
       })
     },
     callMobile (mobile) {

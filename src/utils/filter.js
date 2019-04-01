@@ -112,7 +112,7 @@ Vue.filter('upload', function (item) {
 // 字符串超出n个字显示...
 Vue.filter('longStrFormat', function (item, n) {
   if (item.length > n && n > 3) {
-    item = item.substr(0, n - 3) + '...'
+    item = item.substr(0, n - 1) + '...'
   }
   return item
 })

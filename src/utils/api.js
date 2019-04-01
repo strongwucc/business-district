@@ -6,5 +6,7 @@ export default {
   merchants: 'merchants',
   keywords: 'search_keywords',
   merchantDetail: 'merchant',
-  fav: 'fav'
+  fav: 'fav',
+  coupons: 'coupons',
+  receiveCoupon: 'coupon/receive'
 }

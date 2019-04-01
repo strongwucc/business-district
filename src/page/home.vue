@@ -41,7 +41,7 @@
             <span>停车</span>
           </div>
         </div>
-        <div class="coupons">
+        <div class="coupons" @click.stop="goCouponsCenter">
           <img src="../assets/img/home/home_rk-lingquan@2x.png"/>
         </div>
         <div class="activities">
@@ -216,6 +216,9 @@ export default {
     },
     viewMerchantDetail (merId) {
       this.$router.push({name: 'merchant_detail', params: {merId: merId}})
+    },
+    goCouponsCenter () {
+      this.$router.push({name: 'coupons'})
     }
   }
 }
