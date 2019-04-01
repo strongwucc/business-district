@@ -5,8 +5,8 @@
       <div class="title">{{coupon.title}}</div>
       <div class="description">{{coupon.description}}</div>
       <div class="btn" v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" :class="{'need-buy': coupon.is_buy === '2'}">立即使用</div>
-      <div class="btn" v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">立即购买</div>
-      <div class="btn" v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">立即领取</div>
+      <div class="btn" v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id)">立即购买</div>
+      <div class="btn" v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id)">立即领取</div>
       <div class="btn" v-else-if="coupon.quantity <= 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">已领完</div>
       <div class="get-limit">每人限购{{coupon.get_limit}}张</div>
       <div class="expire-time">有效期：{{coupon.expire_date}}</div>
@@ -74,6 +74,28 @@ export default {
         if (res.id) {
           this.coupon = res
         } else {
+        }
+      })
+    },
+    receive (pcid) {
+      this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
+        if (typeof res.payUrl === 'undefined') {
+          let message = res.message ? res.message : '未知错误'
+          this.$vux.toast.show({
+            type: 'text',
+            text: message,
+            position: 'middle'
+          })
+        } else if (res.payUrl === '') {
+          this.$vux.toast.show({
+            type: 'text',
+            text: '领取成功',
+            position: 'middle'
+          })
+          this.coupon.quantity = this.coupon.quantity - 1
+          this.coupon.user_count = this.coupon.user_count + 1
+        } else {
+          window.location.href = res.payUrl
         }
       })
     }
@@ -148,6 +170,9 @@ export default {
         font-weight:400;
         line-height:44px;
         color:rgba(255,255,255,1);
+      }
+      .no-left {
+        background:rgba(221,221,221,1);
       }
       .get-limit, .expire-time {
         margin-top: 34.5px;

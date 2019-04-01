@@ -199,14 +199,16 @@ export default {
             text: message,
             position: 'middle'
           })
-        } else {
+        } else if (res.payUrl === '') {
           this.$vux.toast.show({
             type: 'text',
             text: '领取成功',
             position: 'middle'
           })
-          this.coupons[couponIndex].quantity = this.coupons[couponIndex].quantity - 1
-          this.coupons[couponIndex].user_count = this.coupons[couponIndex].user_count + 1
+          this.coupon.quantity = this.coupon.quantity - 1
+          this.coupon.user_count = this.coupon.user_count + 1
+        } else {
+          window.location.href = res.payUrl
         }
       })
     },
