@@ -5,5 +5,6 @@ export default {
   hotMerchants: 'merchants/hots',
   merchants: 'merchants',
   keywords: 'search_keywords',
-  merchantDetail: 'merchant'
+  merchantDetail: 'merchant',
+  fav: 'fav'
 }

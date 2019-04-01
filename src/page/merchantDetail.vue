@@ -12,7 +12,7 @@
         <div class="info">
           <div class="name">
             <div class="txt">{{merchant.name}}</div>
-            <div class="fav">
+            <div class="fav" @click.stop="doFav(merchant.mer_id)">
               <img src="../assets/img/base/icon_collection_gray@2x.png"/>
               <span>收藏</span>
             </div>
@@ -39,7 +39,7 @@
             <div class="item time">
               <img class="icon" src="../assets/img/base/icon_house@2x.png"/>
               <span class="txt">营业时间：{{merchant.open_time}}</span>
-              <img class="tel" src="../assets/img/merchant_detail/icon_phone@2x.png"/>
+              <img class="tel" src="../assets/img/merchant_detail/icon_phone@2x.png" @click.stop="callMobile(merchant.mobile)"/>
             </div>
             <div class="item addr">
               <img class="icon" src="../assets/img/base/icon_add@2x.png"/>
@@ -96,8 +96,8 @@
               <div class="logo">
                 <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
               </div>
-              <div class="name">星巴克(虹桥国际商务 广场店)</div>
-              <div class="price">￥114/人</div>
+              <div class="name">{{merchant.name}}</div>
+              <div class="price">￥{{merchant.per_cost}}/人</div>
             </div>
           </div>
         </div>
@@ -232,6 +232,14 @@ export default {
     refresh () {
       // 代理better-scroll的refresh方法
       this.scroll && this.scroll.refresh()
+    },
+    doFav (merId) {
+      this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
+        console.log(res)
+      })
+    },
+    callMobile (mobile) {
+      window.location.href = 'tel://' + mobile
     }
   }
 }

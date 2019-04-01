@@ -66,8 +66,8 @@
               <div class="logo">
                 <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
               </div>
-              <div class="name">星巴克(虹桥国际商务 广场店)</div>
-              <div class="price">￥114/人</div>
+              <div class="name">{{merchant.name}}</div>
+              <div class="price">￥{{merchant.per_cost}}/人</div>
             </div>
           </div>
         </div>
