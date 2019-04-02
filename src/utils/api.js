@@ -9,5 +9,6 @@ export default {
   fav: 'fav',
   coupons: 'coupons',
   receiveCoupon: 'coupon/receive',
-  couponDetail: 'coupon/detail'
+  couponDetail: 'coupon/detail',
+  couponShow: 'coupon/show'
 }

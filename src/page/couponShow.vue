@@ -1,13 +1,9 @@
 <template>
-  <div class="coupon-detail-page">
+  <div class="coupon-show-page">
     <div class="content">
-      <div class="left-count">剩余<span>{{coupon.quantity}}</span>张</div>
       <div class="title">{{coupon.title}}</div>
       <div class="description">{{coupon.description}}</div>
-      <div class="btn" v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="showCoupon">立即使用</div>
-      <div class="btn" v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id)">立即购买</div>
-      <div class="btn" v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id)">立即领取</div>
-      <div class="btn" v-else-if="coupon.quantity <= 0" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">已领完</div>
+      <div class="code"></div>
       <div class="get-limit">每人限购{{coupon.get_limit}}张</div>
       <div class="expire-time">有效期：{{coupon.expire_date}}</div>
       <div class="item notice">
@@ -51,12 +47,12 @@
 
 <script>
 export default {
-  name: 'coupon_detail',
+  name: 'coupon_show',
   components: {},
   inject: ['reload'], // 引入方法
   data () {
     return {
-      pcId: '',
+      code: '',
       coupon: {},
       showNotice: false
     }
@@ -66,48 +62,23 @@ export default {
   watch: {
   },
   created () {
-    if (this.$route.params.pcId) {
-      this.pcId = this.$route.params.pcId
+    if (this.$route.params.code) {
+      this.code = this.$route.params.code
     }
   },
   mounted () {
-    this.getCouponDetail()
+    this.showCouponDetail()
   },
   destroyed () {
   },
   methods: {
-    getCouponDetail () {
-      this.$http.post(this.API.couponDetail, {pcid: this.pcId}).then(res => {
+    showCouponDetail () {
+      this.$http.post(this.API.couponShow, {qrcode: this.code}).then(res => {
         if (res.id) {
           this.coupon = res
         } else {
         }
       })
-    },
-    receive (pcid) {
-      this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
-        if (typeof res.payUrl === 'undefined') {
-          let message = res.message ? res.message : '未知错误'
-          this.$vux.toast.show({
-            type: 'text',
-            text: message,
-            position: 'middle'
-          })
-        } else if (res.payUrl === '') {
-          this.$vux.toast.show({
-            type: 'text',
-            text: '领取成功',
-            position: 'middle'
-          })
-          this.coupon.quantity = this.coupon.quantity - 1
-          this.coupon.user_count = this.coupon.user_count + 1
-        } else {
-          window.location.href = res.payUrl
-        }
-      })
-    },
-    showCoupon () {
-      this.$router.push('/coupon_show')
     }
   }
 }
@@ -127,7 +98,7 @@ export default {
     from {opacity:1;}
     to {opacity:0;}
   }
-  .coupon-detail-page {
+  .coupon-show-page {
     height: 100%;
     background:rgba(82,173,255,1);
     padding: 25px 15px;
@@ -142,17 +113,6 @@ export default {
       align-items: center;
       justify-content: center;
       border-radius: 6px;
-      .left-count {
-        width: 100%;
-        height:20px;
-        font-size:14px;
-        font-weight:500;
-        line-height:20px;
-        text-align: right;
-        span {
-          color: #F95349;
-        }
-      }
       .title {
         margin-top: 14.5px;
         height:31px;
@@ -169,20 +129,7 @@ export default {
         color:rgba(153,153,153,1);
         text-align: center;
       }
-      .btn {
-        margin-top: 30px;
-        height:44px;
-        background:linear-gradient(90deg,rgba(255,77,20,1) 0%,rgba(255,126,22,1) 100%);
-        border-radius:22px;
-        padding: 0px 56px 0px 60px;
-        height:44px;
-        font-size:16px;
-        font-weight:400;
-        line-height:44px;
-        color:rgba(255,255,255,1);
-      }
-      .no-left {
-        background:rgba(221,221,221,1);
+      .code {
       }
       .get-limit, .expire-time {
         margin-top: 34.5px;

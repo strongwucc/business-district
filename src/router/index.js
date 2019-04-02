@@ -7,6 +7,7 @@ const MerchantSearch = r => require.ensure([], () => r(require('@/page/merchantS
 const MerchantDetail = r => require.ensure([], () => r(require('@/page/merchantDetail')), 'merchant_detail') // 商户详情
 const Coupons = r => require.ensure([], () => r(require('@/page/coupons')), 'coupons') // 领券中心
 const CouponDetail = r => require.ensure([], () => r(require('@/page/couponDetail')), 'coupon_detail') // 优惠券详情
+const CouponShow = r => require.ensure([], () => r(require('@/page/couponShow')), 'coupon_show') // 优惠券使用
 const Center = r => require.ensure([], () => r(require('@/page/center')), 'center') // 个人中心
 
 Vue.use(Router)
@@ -76,6 +77,16 @@ export default new Router({
       meta: {
         auth: 0,
         title: '优惠券详情'
+      }
+    },
+
+    {
+      path: '/coupon_show/:code?',
+      name: 'coupon_show',
+      component: CouponShow,
+      meta: {
+        auth: 0,
+        title: '使用优惠券'
       }
     },
 
