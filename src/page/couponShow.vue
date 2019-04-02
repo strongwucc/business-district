@@ -3,10 +3,40 @@
     <div class="content">
       <div class="title">{{coupon.title}}</div>
       <div class="description">{{coupon.description}}</div>
-      <div class="code"></div>
+      <div class="code" v-if="coupon.id">
+        <swiper dots-position="center" height="170px">
+          <swiper-item>
+            <qrcode :value="coupon.qrcode" :options="{ width: 120, margin: 0 }"></qrcode>
+          </swiper-item>
+          <swiper-item>
+            <barcode :value="coupon.qrcode" :options="{ displayValue: true, height: 54, width: 1.5, fontSize: 12, textMargin: 10}"></barcode>
+          </swiper-item>
+        </swiper>
+      </div>
       <div class="get-limit">每人限购{{coupon.get_limit}}张</div>
-      <div class="expire-time">有效期：{{coupon.expire_date}}</div>
-      <div class="item notice">
+      <div class="expire-time">有效期：{{coupon.begin_date_time}}-{{coupon.end_date_time}}</div>
+      <div class="item order-info is-first" v-if="coupon.order.orderNo">
+        <div class="notice-title" @click.stop="showOrder = true">
+          <span class="txt">订单详情</span>
+          <img v-show="!showOrder" src="../assets/img/base/icon_arrow_down@2x.png"/>
+        </div>
+        <div v-show="showOrder" class="order-content">
+          <div class="order-item">
+            <span>实付款</span>
+            <span>{{coupon.order.payAmount|formatMoney}}元</span>
+          </div>
+          <div class="order-item">
+            <span>订单编号</span>
+            <span>{{coupon.order.orderNo}}</span>
+          </div>
+          <div class="order-item">
+            <span>支付时间</span>
+            <span>{{coupon.order.tranRime}}</span>
+          </div>
+        </div>
+        <div v-show="showOrder" class="action-up" @click.stop="showOrder = false"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
+      </div>
+      <div class="item notice" :class="{'is-first': !coupon.order.orderNo}">
         <div class="notice-title" @click.stop="showNotice = true">
           <span class="txt">使用须知</span>
           <img v-show="!showNotice" src="../assets/img/base/icon_arrow_down@2x.png"/>
@@ -46,15 +76,19 @@
 </template>
 
 <script>
+import Barcode from '@xkeshi/vue-barcode'
+import Qrcode from '@chenfengyuan/vue-qrcode'
+import { Swiper, SwiperItem } from 'vux'
 export default {
   name: 'coupon_show',
-  components: {},
+  components: { Barcode, Qrcode, Swiper, SwiperItem },
   inject: ['reload'], // 引入方法
   data () {
     return {
       code: '',
       coupon: {},
-      showNotice: false
+      showNotice: false,
+      showOrder: false
     }
   },
   computed: {
@@ -130,9 +164,14 @@ export default {
         text-align: center;
       }
       .code {
+        height: 191px;
+        padding-top: 50px;
+        .vux-slider {
+          width: 207px;
+        }
       }
       .get-limit, .expire-time {
-        margin-top: 34.5px;
+        margin-top: 20px;
         height:18.5px;
         font-size:13px;
         font-weight:400;
@@ -172,6 +211,17 @@ export default {
           color:rgba(102,102,102,1);
           text-align: left;
         }
+        .order-content {
+          font-size:13px;
+          font-weight:400;
+          line-height:17px;
+          color:rgba(102,102,102,1);
+          .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+          }
+        }
         .action-up {
           height: 25px;
           width: 100%;
@@ -184,7 +234,7 @@ export default {
           }
         }
       }
-      .notice {
+      .is-first {
         margin-top: 15.5px;
         border-top:1px dashed rgba(229,229,229,1);
       }
