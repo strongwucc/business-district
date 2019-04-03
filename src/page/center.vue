@@ -3,26 +3,40 @@
     <div class="background"></div>
     <div class="user-info">
       <div class="left">
-        <img src=""/>
+        <img src="../assets/img/center/member_head_gril@2x.png"/>
       </div>
       <div class="middle">
-        <div class="name">大白</div>
-        <div class="no">NO.47382902</div>
+        <div class="name">{{user.nickname}}</div>
+        <div class="no">NO.{{user.mobile}}</div>
       </div>
       <div class="right">
         <div class="time">
-          <img src=""/>
-          <span>早上好</span>
+          <template v-if="hours < 12">
+            <img src="../assets/img/center/member_icon_morning@2x.png"/>
+            <span>早上好</span>
+          </template>
+          <template v-if="hours === 12">
+            <img src="../assets/img/center/member_icon_noon@2x.png"/>
+            <span>中午好</span>
+          </template>
+          <template v-if="hours > 12 && hours < 18">
+            <img src="../assets/img/center/member_icon_afternoon@2x.png"/>
+            <span>下午好</span>
+          </template>
+          <template v-if="hours >= 18">
+            <img src="../assets/img/center/member_icon_night@2x.png"/>
+            <span>晚上好</span>
+          </template>
         </div>
         <div class="code">
-          <img class="icon" src=""/>
+          <img class="icon" src="../assets/img/center/member_icon_erweima@2x.png"/>
           <span>会员码</span>
         </div>
       </div>
     </div>
     <div class="score-coupon">
       <div class="item" @click.stop="showPoint">
-        <span class="content">24</span>
+        <span class="content">{{user.point}}</span>
         <span class="title">我的积分</span>
       </div>
       <div class="item">
@@ -32,21 +46,21 @@
     </div>
     <div class="list">
       <div class="list-item">
-        <div class="left"><img src=""/></div>
+        <div class="left"><img src="../assets/img/center/member_icon_huiyuan@2x.png"/></div>
         <div class="right">
           <span>会员信息</span>
           <img src="../assets/img/base/icon_arrow_right@2x.png"/>
         </div>
       </div>
       <div class="list-item">
-        <div class="left"><img src=""/></div>
+        <div class="left"><img src="../assets/img/center/member_icon_order@2x.png"/></div>
         <div class="right">
           <span>我的订单</span>
           <img src="../assets/img/base/icon_arrow_right@2x.png"/>
         </div>
       </div>
       <div class="list-item">
-        <div class="left"><img src=""/></div>
+        <div class="left"><img src="../assets/img/center/member_icon_collect@2x.png"/></div>
         <div class="right">
           <span>我的收藏</span>
           <img src="../assets/img/base/icon_arrow_right@2x.png"/>
@@ -64,19 +78,24 @@ export default {
   inject: ['reload'], // 引入方法
   data () {
     return {
+      user: {}
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.user.user_info
-    })
+    }),
+    hours: function () {
+      let nowDate = new Date()
+      return nowDate.getHours() + 1
+    }
   },
   watch: {
   },
   created () {
   },
   mounted () {
-//    this.getUserInfo()
+    this.getUserInfo()
   },
   destroyed () {
   },
@@ -86,7 +105,9 @@ export default {
     },
     getUserInfo () {
       this.$http.post(this.API.userInfo).then(res => {
-        console.log(res)
+        if (res.member_id) {
+          this.user = res
+        }
       })
     }
   }
@@ -161,8 +182,9 @@ export default {
           justify-content: center;
           align-items: center;
           img {
-            width: 11px;
-            height: 11px;
+            width: 20px;
+            height: 20px;
+            margin-right: 2.5px;
           }
           span {
             height:20px;
@@ -183,8 +205,8 @@ export default {
           background: url("../assets/img/center/member_icon_saoma@2x.png");
           background-size: 120.5px 53.5px;
           .icon {
-            width: 19px;
-            height: 19px;
+            width: 13.5px;
+            height: 13.5px;
             margin-right: 5px;
           }
           span {
@@ -236,7 +258,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         .left {
-          width: 100px;
+          width: 50px;
           height: 100%;
           padding-left: 15px;
           display: flex;
