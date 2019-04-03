@@ -15,7 +15,7 @@
       <div class="item sms-code">
         <span class="label">验证码</span>
         <input v-model="smsCode" placeholder="请输入验证码"/>
-        <span class="action">发送验证码</span>
+        <span class="action" @click.stop="sendMsg">发送验证码</span>
       </div>
       <div class="btn">绑定</div>
     </div>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import Valid from '../utils/valid'
 export default {
   name: 'center',
   components: {},
@@ -35,16 +37,32 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      userInfo: state => state.user.user_info
+    })
   },
   watch: {
   },
   created () {
   },
   mounted () {
+    if (this.userInfo.nickname) {
+      this.nickName = this.userInfo.nickname
+    }
   },
   destroyed () {
   },
   methods: {
+    sendMsg () {
+      if (Valid.check_mobile(this.mobile) === false) {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '请输入正确的手机号',
+          position: 'middle'
+        })
+        return false
+      }
+    }
   }
 }
 </script>

@@ -12,5 +12,7 @@ export default {
   couponDetail: 'coupon/detail',
   couponShow: 'coupon/show',
   authorizations: 'socials/authorizations',
-  userInfo: 'user'
+  userInfo: 'user',
+  smsCode: 'verification_codes',
+  bindMobile: 'user/bind'
 }
