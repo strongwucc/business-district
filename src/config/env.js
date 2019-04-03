@@ -9,21 +9,25 @@
 let rootUrl = ''
 let baseUrl = ''
 let uploadUrl = 'http://yanshi.yklsq.etonepay.com'
-let baseRedirectUrl = 'http://' + window.location.host + '/#'
+let appId = 'wx583be2083a929fb0'
+let baseRedirectUrl = 'http://' + window.location.host + '/'
 
 if (process.env.NODE_ENV === 'development') {
   rootUrl = 'http://district.test'
   baseUrl = rootUrl + '/api/'
-  baseRedirectUrl = 'http://' + window.location.host + '/#'
+  baseRedirectUrl = 'http://district.test/'
+  appId = 'wx583be2083a929fb0'
 } else if (process.env.NODE_ENV === 'production') {
   rootUrl = 'http://' + window.location.host
   baseUrl = rootUrl + '/business-district/'
-  baseRedirectUrl = 'http://' + window.location.host + '/coupon/#'
+  baseRedirectUrl = 'http://' + window.location.host + '/business-district/'
+  appId = 'wx583be2083a929fb0'
 }
 
 export {
   rootUrl,
   baseUrl,
   uploadUrl,
+  appId,
   baseRedirectUrl
 }

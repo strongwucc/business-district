@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="score-coupon">
-      <div class="item">
+      <div class="item" @click.stop="showPoint">
         <span class="content">24</span>
         <span class="title">我的积分</span>
       </div>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'center',
   components: {},
@@ -66,16 +67,28 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      userInfo: state => state.user.user_info
+    })
   },
   watch: {
   },
   created () {
   },
   mounted () {
+//    this.getUserInfo()
   },
   destroyed () {
   },
   methods: {
+    showPoint () {
+      this.$router.push('/point')
+    },
+    getUserInfo () {
+      this.$http.post(this.API.userInfo).then(res => {
+        console.log(res)
+      })
+    }
   }
 }
 </script>

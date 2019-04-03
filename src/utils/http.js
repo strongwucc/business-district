@@ -6,7 +6,10 @@ axios.defaults.headers['Accept'] = 'application/prs.district.v1+json'
 axios.defaults.withCredentials = false
 axios.interceptors.request.use(function (config) {
   // Do something before request is sent
-  config.headers['Authorization'] = 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kaXN0cmljdC50ZXN0IiwiaWF0IjoxNTUzMTUxMDc4LCJleHAiOjE1ODQ2ODcwNzgsIm5iZiI6MTU1MzE1MTA3OCwianRpIjoiWkVmRW1sbUM0SFkzTkx1NCIsInN1YiI6MTgsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hp7QIb8EnhMQm99FszQaOM2HmEeNt-zLrwC8b7MinJc'
+  let token = localStorage.getItem('access_token')
+  if (token) {
+    config.headers['Authorization'] = 'Bearer ' + token
+  }
   return config
 }, function (error) {
   // Do something with request error

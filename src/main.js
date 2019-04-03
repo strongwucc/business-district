@@ -50,7 +50,7 @@ Vue.prototype.$http = new Http(store, api)
 Vue.prototype.API = api
 Vue.prototype.NP = NP
 
-// store.dispatch('get_user_data', router)
+store.dispatch('get_user_data', router)
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */

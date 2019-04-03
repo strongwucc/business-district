@@ -8,7 +8,10 @@ const MerchantDetail = r => require.ensure([], () => r(require('@/page/merchantD
 const Coupons = r => require.ensure([], () => r(require('@/page/coupons')), 'coupons') // 领券中心
 const CouponDetail = r => require.ensure([], () => r(require('@/page/couponDetail')), 'coupon_detail') // 优惠券详情
 const CouponShow = r => require.ensure([], () => r(require('@/page/couponShow')), 'coupon_show') // 优惠券使用
+const BindWechat = r => require.ensure([], () => r(require('@/page/bindWechat')), 'bind_wechat') // 微信授权
+const BindMobile = r => require.ensure([], () => r(require('@/page/bindMobile')), 'bind_mobile') // 绑定手机号
 const Center = r => require.ensure([], () => r(require('@/page/center')), 'center') // 个人中心
+const Point = r => require.ensure([], () => r(require('@/page/point')), 'point') // 我的积分
 
 Vue.use(Router)
 
@@ -85,8 +88,28 @@ export default new Router({
       name: 'coupon_show',
       component: CouponShow,
       meta: {
-        auth: 0,
+        auth: 1,
         title: '使用优惠券'
+      }
+    },
+
+    {
+      path: '/bind_wechat/:code',
+      name: 'bind_wechat',
+      component: BindWechat,
+      meta: {
+        auth: 0,
+        title: '微信授权'
+      }
+    },
+
+    {
+      path: '/bind_mobile',
+      name: 'bind_mobile',
+      component: BindMobile,
+      meta: {
+        auth: 1,
+        title: '绑定手机号'
       }
     },
 
@@ -95,8 +118,18 @@ export default new Router({
       name: 'center',
       component: Center,
       meta: {
-        auth: 0,
+        auth: 1,
         title: '个人中心'
+      }
+    },
+
+    {
+      path: '/point',
+      name: 'point',
+      component: Point,
+      meta: {
+        auth: 1,
+        title: '我的积分'
       }
     }
   ]

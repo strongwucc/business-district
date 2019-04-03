@@ -10,5 +10,7 @@ export default {
   coupons: 'coupons',
   receiveCoupon: 'coupon/receive',
   couponDetail: 'coupon/detail',
-  couponShow: 'coupon/show'
+  couponShow: 'coupon/show',
+  authorizations: 'socials/authorizations',
+  userInfo: 'user'
 }
