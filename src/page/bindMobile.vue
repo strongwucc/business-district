@@ -15,9 +15,10 @@
       <div class="item sms-code">
         <span class="label">验证码</span>
         <input v-model="smsCode" placeholder="请输入验证码"/>
-        <span class="action" @click.stop="sendMsg">发送验证码</span>
+        <span class="action" v-show="canSendMsg" @click.stop="sendMsg">发送验证码</span>
+        <span class="seconds" v-show="!canSendMsg">{{seconds}}秒重发</span>
       </div>
-      <div class="btn">绑定</div>
+      <div class="btn" @click.stop="bindMobile">绑定</div>
     </div>
   </div>
 </template>
@@ -33,7 +34,13 @@ export default {
     return {
       nickName: '',
       mobile: '',
-      smsCode: ''
+      smsCode: '',
+      key: '',
+      seconds: 60,
+      canSendMsg: true,
+      posting: false,
+      timer: '',
+      redirect: '/home'
     }
   },
   computed: {
@@ -44,6 +51,9 @@ export default {
   watch: {
   },
   created () {
+    if (this.$route.query.redirect) {
+      this.redirect = this.$route.query.redirect
+    }
   },
   mounted () {
     if (this.userInfo.nickname) {
@@ -54,14 +64,78 @@ export default {
   },
   methods: {
     sendMsg () {
+      if (this.posting) {
+        return false
+      }
+
       if (Valid.check_mobile(this.mobile) === false) {
         this.$vux.toast.show({
           type: 'text',
-          text: '请输入正确的手机号',
+          text: '<span style="font-size: 14px">请输入正确的手机号</span>',
           position: 'middle'
         })
         return false
       }
+
+      this.posting = true
+      this.$http.post(this.API.smsCode, {mobile: this.mobile}).then(res => {
+        this.posting = false
+        if (res.key) {
+          this.key = res.key
+          this.canSendMsg = false
+          this.timer = setInterval(() => {
+            if (this.seconds <= 1) {
+              this.canSendMsg = true
+              this.seconds = 60
+              clearInterval(this.timer)
+            } else {
+              this.seconds = this.seconds - 1
+            }
+          }, 1000)
+        } else {
+          this.$vux.toast.show({
+            type: 'text',
+            text: '<span style="font-size: 14px">短信发送失败</span>',
+            position: 'middle'
+          })
+        }
+      })
+    },
+    bindMobile () {
+      if (this.posting) {
+        return false
+      }
+
+      if (Valid.check_mobile(this.mobile) === false) {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '<span style="font-size: 14px">请输入正确的手机号</span>',
+          position: 'middle'
+        })
+        return false
+      }
+
+      this.posting = true
+
+      this.$http.post(this.API.bindMobile, {mobile: this.mobile, verification_key: this.key, verification_code: this.smsCode}).then(res => {
+        this.posting = false
+        if (res.status_code) {
+          this.$vux.toast.show({
+            type: 'text',
+            text: res.message ? '<span style="font-size: 14px">' + res.message + '</span>' : '<span style="font-size: 14px">绑定失败</span>',
+            position: 'middle'
+          })
+        } else {
+          this.$vux.toast.show({
+            type: 'text',
+            text: '<span style="font-size: 14px">绑定成功</span>',
+            position: 'middle'
+          })
+          setTimeout(() => {
+            this.$router.push({path: this.redirect})
+          }, 2000)
+        }
+      })
     }
   }
 }
@@ -149,6 +223,9 @@ export default {
           font-weight:400;
           line-height:20px;
           color:rgba(56,161,255,1);
+        }
+        .seconds {
+          color:rgba(158,209,255,1);
         }
       }
       .btn {
