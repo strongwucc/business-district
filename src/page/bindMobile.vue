@@ -93,9 +93,13 @@ export default {
             }
           }, 1000)
         } else {
+          let message = '短信发送失败'
+          if (res.errors.mobile[0]) {
+            message = res.errors.mobile[0]
+          }
           this.$vux.toast.show({
             type: 'text',
-            text: '<span style="font-size: 14px">短信发送失败</span>',
+            text: '<span style="font-size: 14px">' + message + '</span>',
             position: 'middle'
           })
         }
