@@ -124,6 +124,7 @@ import axios from 'axios'
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { Swiper, SwiperItem, LoadMore } from 'vux'
+import { appId, baseRedirectUrl } from '../config/env'
 export default {
   name: 'merchant_detail',
   components: { Swiper, SwiperItem, LoadMore },
@@ -241,6 +242,22 @@ export default {
     },
     doFav (merId) {
       this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
+        if (res.status_code) {
+          if (res.status_code === 401) {
+            let redirect = this.$router.currentRoute.fullPath
+            let redirectUri = baseRedirectUrl + '/wechat.html'
+            let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+            window.location.href = oauthUrl
+            return false
+          } else {
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">收藏失败</span>',
+              position: 'middle'
+            })
+            return false
+          }
+        }
         this.merchant.is_fav = this.merchant.is_fav === 0 ? 1 : 0
       })
     },

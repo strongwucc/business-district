@@ -48,11 +48,13 @@ export default {
 
       if (to.meta.auth === 1) {
         let redirect = to.fullPath
-        if (isLogin === '0') {
+        console.log(parseInt(isLogin) === 0)
+        console.log(parseInt(isBind) === 0)
+        if (parseInt(isLogin) === 0) {
           let redirectUri = baseRedirectUrl + '/wechat.html'
           let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
           window.location.href = oauthUrl
-        } else if (isBind === '0' && to.name !== 'bind_mobile') {
+        } else if (parseInt(isBind) === 0 && to.name !== 'bind_mobile') {
           next({
             path: '/bind_mobile',
             query: {redirect: redirect} // 将跳转的路由path作为参数，登录成功后跳转到该路由

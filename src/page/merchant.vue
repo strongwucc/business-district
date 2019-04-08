@@ -82,7 +82,7 @@
           </div>
         </div>
         <div class="merchants" v-if="merchants.length > 0">
-          <div class="merchant" v-for="(merchant, merchantIndex) in merchants" :key="merchantIndex">
+          <div class="merchant" v-for="(merchant, merchantIndex) in merchants" :key="merchantIndex" @click.stop="viewMerchantDetail(merchant.mer_id)">
             <div class="logo">
               <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
             </div>
@@ -364,6 +364,9 @@ export default {
     },
     goSearch () {
       this.$router.push('/merchant_search')
+    },
+    viewMerchantDetail (merId) {
+      this.$router.push({name: 'merchant_detail', params: {merId: merId}})
     }
   }
 }

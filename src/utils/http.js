@@ -1,6 +1,7 @@
 import axios from 'axios'
+import router from '../router'
 import qs from 'qs'
-import { baseUrl } from '../config/env'
+import { baseUrl, baseRedirectUrl, appId } from '../config/env'
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers['Accept'] = 'application/prs.district.v1+json'
 axios.defaults.withCredentials = false
@@ -17,15 +18,31 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
+axios.interceptors.response.use(function (response) {
+  // Do something with response data
+  // console.log(response)
+  return response
+}, function (error) {
+  // Do something with response error
+  // console.log(error.response)
+  // if (error.response && error.response.status === 401) {
+  // let redirect = router.currentRoute.fullPath
+  // let redirectUri = baseRedirectUrl + '/wechat.html'
+  // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+  // window.location.href = oauthUrl
+  // }
+  return Promise.reject(error)
+})
+
 export default class http {
   constructor (store, api) {
     var baseApi = baseUrl
     this.baseApi = baseApi
     this.api = api // 全部接口
-    if (store) {
-      this.store = store
-      this.userAuth()
-    }
+    // if (store) {
+    //   this.store = store
+    //   this.userAuth()
+    // }
   }
   get (url, data, isNeedBaseUrl) {
     var options = {
@@ -71,13 +88,25 @@ export default class http {
             // Something happened in setting up the request that triggered an Error
             resolve({status: '6000', msg: '网络出错啦:' + error.message})
           }
-          console.log(error.config)
+          // console.log(error.config)
         })
     })
     return promise
   }
   userAuth () { // 会员登录认证
     axios.interceptors.response.use(response => {
+      // console.log(response)
+      // if (response.status == 200 && response.data.return_code == '1001' && router.currentRoute.meta.auth == 1 && !router.currentRoute.query.auth) {
+      //   // 清除登录信息
+      //   this.store.commit('set_user_bind_status', 0)
+      //   this.store.commit('set_user_login_status', 0)
+      //   this.store.commit('set_user_info', {});
+      //   router.replace({
+      //     path: '/login',
+      //     query: {redirect: router.currentRoute.fullPath}
+      //   })
+      //   return response
+      // }
       return response
     })
   }
