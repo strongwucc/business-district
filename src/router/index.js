@@ -12,6 +12,7 @@ const BindWechat = r => require.ensure([], () => r(require('@/page/bindWechat'))
 const BindMobile = r => require.ensure([], () => r(require('@/page/bindMobile')), 'bind_mobile') // 绑定手机号
 const Center = r => require.ensure([], () => r(require('@/page/center')), 'center') // 个人中心
 const Point = r => require.ensure([], () => r(require('@/page/point')), 'point') // 我的积分
+const Collection = r => require.ensure([], () => r(require('@/page/collection')), 'collection') // 我的收藏
 
 Vue.use(Router)
 
@@ -130,6 +131,16 @@ export default new Router({
       meta: {
         auth: 1,
         title: '我的积分'
+      }
+    },
+
+    {
+      path: '/collection',
+      name: 'collection',
+      component: Collection,
+      meta: {
+        auth: 1,
+        title: '我的收藏'
       }
     }
   ]

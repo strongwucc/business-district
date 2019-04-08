@@ -59,7 +59,7 @@
           <img src="../assets/img/base/icon_arrow_right@2x.png"/>
         </div>
       </div>
-      <div class="list-item">
+      <div class="list-item" @click.stop="$router.push({path: '/collection'})">
         <div class="left"><img src="../assets/img/center/member_icon_collect@2x.png"/></div>
         <div class="right">
           <span>我的收藏</span>
