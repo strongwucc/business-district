@@ -39,7 +39,7 @@
         <span class="content">{{user.point}}</span>
         <span class="title">我的积分</span>
       </div>
-      <div class="item">
+      <div class="item" @click.stop="$router.push({path: '/my_coupons'})">
         <span class="content">3</span>
         <span class="title">优惠券</span>
       </div>

@@ -13,6 +13,7 @@ const BindMobile = r => require.ensure([], () => r(require('@/page/bindMobile'))
 const Center = r => require.ensure([], () => r(require('@/page/center')), 'center') // 个人中心
 const Point = r => require.ensure([], () => r(require('@/page/point')), 'point') // 我的积分
 const Collection = r => require.ensure([], () => r(require('@/page/collection')), 'collection') // 我的收藏
+const MyCoupons = r => require.ensure([], () => r(require('@/page/myCoupons')), 'my_coupons') // 我的优惠券
 
 Vue.use(Router)
 
@@ -141,6 +142,16 @@ export default new Router({
       meta: {
         auth: 1,
         title: '我的收藏'
+      }
+    },
+
+    {
+      path: '/my_coupons',
+      name: 'my_coupons',
+      component: MyCoupons,
+      meta: {
+        auth: 1,
+        title: '我的优惠券'
       }
     }
   ]

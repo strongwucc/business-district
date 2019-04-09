@@ -126,3 +126,26 @@ Vue.filter('minuteFormat', function (value) {
 
   return hour + '小时' + sec + '分钟'
 })
+
+// 优惠券过期提示
+Vue.filter('expiredNotice', function (value) {
+  var days = isNaN(parseInt(value)) ? 0 : parseInt(value)
+  var notice = ''
+  switch (days) {
+    case 0:
+      notice = '今天即将过期'
+      break
+    case 1:
+      notice = '明天即将过期'
+      break
+    case 2:
+      notice = '将于两天后过期'
+      break
+    case 3:
+      notice = '将于3天后过期'
+      break
+    default:
+      break
+  }
+  return notice
+})

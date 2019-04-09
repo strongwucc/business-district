@@ -16,5 +16,6 @@ export default {
   authorizations: 'socials/authorizations',
   userInfo: 'user',
   smsCode: 'verification_codes',
-  bindMobile: 'user/bind'
+  bindMobile: 'user/bind',
+  myCoupons: 'user/coupons'
 }
