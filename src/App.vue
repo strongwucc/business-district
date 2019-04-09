@@ -87,11 +87,17 @@ export default {
       box-shadow:0px -1px 5px rgba(0,0,0,0.1);
       z-index: 99;
       .tabbar-item {
-        padding-top: 6px;
+        /*padding-top: 6px;*/
         height: 100%;
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
         .icon {
+          margin-top: 6px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
           width: 24px;
           height: 24px;
           img {
