@@ -27,7 +27,7 @@
             <div class="left">
               <div class="order-no">
                 <span class="label">订单编号：</span>
-                <span class="content">{{order.order_no}}</span>
+                <span class="content">{{order.order_no|longStrFormat(24)}}</span>
               </div>
               <div class="order-time">
                 <span class="label">订单时间：</span>
@@ -188,7 +188,7 @@ export default {
   .orders-page {
     height: 100%;
     background:rgba(242,244,247,1);
-    padding-top: 14.5px;
+    /*padding-top: 14.5px;*/
     .status {
       position: fixed;
       left: 0;
@@ -228,8 +228,9 @@ export default {
     }
     .orders-wrapper{
       background:rgba(242,244,247,1);
-      margin-top: 44px;
+      /*margin-top: 64.5px;*/
       .wrapper-content {
+        padding-top: 44px;
         .item{
           margin-top: 10.5px;
           background:rgba(255,255,255,1);
@@ -340,31 +341,20 @@ export default {
     .no-order {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       img {
-        margin-top: 138px;
-        width: 123.5px;
-        height: 80.5px;
+        margin-top: 149.5px;
+        width: 104.5px;
+        height: 122.5px;
       }
       .notice {
-        margin-top: 44px;
+        margin-top: 40.5px;
         height:18.5px;
         font-size:13px;
         font-weight:400;
         line-height:18.5px;
         color:rgba(153,153,153,1);
-      }
-      .btn {
-        margin-top: 45.5px;
-        width:110px;
-        height:44px;
-        border:1px solid rgba(56,161,255,1);
-        border-radius:22px;
-        font-size:14px;
-        font-weight:400;
-        line-height:44px;
-        color:rgba(56,161,255,1);
       }
     }
   }
