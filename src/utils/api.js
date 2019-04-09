@@ -18,5 +18,6 @@ export default {
   smsCode: 'verification_codes',
   bindMobile: 'user/bind',
   myCoupons: 'user/coupons',
-  editUserInfo: 'user/edit'
+  editUserInfo: 'user/edit',
+  orders: 'user/orders'
 }

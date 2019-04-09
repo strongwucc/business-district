@@ -16,6 +16,7 @@ const Collection = r => require.ensure([], () => r(require('@/page/collection'))
 const MyCoupons = r => require.ensure([], () => r(require('@/page/myCoupons')), 'my_coupons') // 我的优惠券
 const UserInfo = r => require.ensure([], () => r(require('@/page/userInfo')), 'user_info') // 会员信息
 const EditName = r => require.ensure([], () => r(require('@/page/editName')), 'edit_name') // 修改昵称
+const Orders = r => require.ensure([], () => r(require('@/page/orders')), 'orders') // 我的订单
 
 Vue.use(Router)
 
@@ -174,6 +175,16 @@ export default new Router({
       meta: {
         auth: 1,
         title: '修改昵称'
+      }
+    },
+
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders,
+      meta: {
+        auth: 1,
+        title: '我的订单'
       }
     }
   ]
