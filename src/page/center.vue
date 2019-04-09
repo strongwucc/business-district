@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'center',
   components: {},
@@ -101,13 +101,22 @@ export default {
   destroyed () {
   },
   methods: {
+    ...mapMutations([
+      'set_user_info',
+      'set_user_bind_status',
+      'set_user_login_status'
+    ]),
     showPoint () {
       this.$router.push('/point')
     },
     getUserInfo () {
       this.$http.post(this.API.userInfo).then(res => {
         if (res.member_id) {
+          let bindStatus = res.bound_phone ? 1 : 0
           this.user = res
+          this.set_user_info(res)
+          this.set_user_bind_status(bindStatus)
+          this.set_user_login_status(1)
         }
       })
     }

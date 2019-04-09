@@ -24,13 +24,14 @@ axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   // Do something with response error
-  // console.log(error.response)
-  // if (error.response && error.response.status === 401) {
-  // let redirect = router.currentRoute.fullPath
-  // let redirectUri = baseRedirectUrl + '/wechat.html'
-  // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
-  // window.location.href = oauthUrl
-  // }
+  console.log(error.response)
+  console.log(router.currentRoute)
+  if (error.response && error.response.status === 401 && router.currentRoute.meta.auth === 1) {
+    let redirect = router.currentRoute.fullPath
+    let redirectUri = baseRedirectUrl + '/wechat.html'
+    let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+    window.location.href = oauthUrl
+  }
   return Promise.reject(error)
 })
 
