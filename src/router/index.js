@@ -14,6 +14,7 @@ const Center = r => require.ensure([], () => r(require('@/page/center')), 'cente
 const Point = r => require.ensure([], () => r(require('@/page/point')), 'point') // 我的积分
 const Collection = r => require.ensure([], () => r(require('@/page/collection')), 'collection') // 我的收藏
 const MyCoupons = r => require.ensure([], () => r(require('@/page/myCoupons')), 'my_coupons') // 我的优惠券
+const UserInfo = r => require.ensure([], () => r(require('@/page/userInfo')), 'user_info') // 会员信息
 
 Vue.use(Router)
 
@@ -152,6 +153,16 @@ export default new Router({
       meta: {
         auth: 1,
         title: '我的优惠券'
+      }
+    },
+
+    {
+      path: '/user_info',
+      name: 'user_info',
+      component: UserInfo,
+      meta: {
+        auth: 1,
+        title: '会员信息'
       }
     }
   ]

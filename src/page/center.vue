@@ -3,7 +3,8 @@
     <div class="background"></div>
     <div class="user-info">
       <div class="left">
-        <img src="../assets/img/center/member_head_gril@2x.png"/>
+        <img v-if="user.avatar" :src="user.avatar"/>
+        <img src="../assets/img/center/member_head_gril@2x.png" v-else/>
       </div>
       <div class="middle">
         <div class="name">{{user.nickname}}</div>
@@ -45,7 +46,7 @@
       </div>
     </div>
     <div class="list">
-      <div class="list-item">
+      <div class="list-item" @click.stop="$router.push({path: '/user_info'})">
         <div class="left"><img src="../assets/img/center/member_icon_huiyuan@2x.png"/></div>
         <div class="right">
           <span>会员信息</span>
@@ -156,6 +157,7 @@ export default {
         img {
           width: 70px;
           height: 70px;
+          border-radius: 35px;
         }
       }
       .middle {
