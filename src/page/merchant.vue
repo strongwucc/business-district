@@ -28,13 +28,13 @@
       <div class="merchant-types" v-show="merchantTypesVisible">
         <div ref="parentTypeWrapper" class="parent-type">
           <div class="parent-type-content">
-            <div class="parent-type-item" :class="{active: pCode === 0}" @click.stop="setAllType">全部</div>
-            <div class="parent-type-item" v-for="(parentType, parentTypeIndex) in parentTypes" :key="parentTypeIndex" :class="{active: parentType.code === pCode}" @click.stop="getChildTypes(parentType.code)">{{parentType.name}}</div>
+            <div class="parent-type-item" :class="{active: pCode == 0}" @click.stop="setAllType">全部</div>
+            <div class="parent-type-item" v-for="(parentType, parentTypeIndex) in parentTypes" :key="parentTypeIndex" :class="{active: parentType.code == pCode}" @click.stop="getChildTypes(parentType.code)">{{parentType.name}}</div>
           </div>
         </div>
         <div ref="childTypeWrapper" class="child-type">
           <div class="child-type-content">
-            <div class="child-type-item" v-for="(childType, childTypeIndex) in childTypes" :key="childTypeIndex" :class="{active: childType.code === cCode}" @click.stop="setChildType(childType.code, childType.name)">{{childType.name}}</div>
+            <div class="child-type-item" v-for="(childType, childTypeIndex) in childTypes" :key="childTypeIndex" :class="{active: childType.code == cCode}" @click.stop="setChildType(childType.code, childType.name)">{{childType.name}}</div>
           </div>
         </div>
       </div>
@@ -184,6 +184,13 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.params.pCode) {
+      this.pCode = this.$route.params.pCode
+      this.typeCode = this.$route.params.pCode
+    }
+    if (this.$route.params.typeName) {
+      this.typeName = this.$route.params.typeName
+    }
     this.getMerchants()
     this.getParentTypes()
   },

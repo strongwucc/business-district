@@ -82,8 +82,8 @@
                 </div>
                 <div class="money" v-if="coupon.is_buy === '2'">售价：<span>{{coupon.sale_price}}</span>元</div>
                 <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="">立即使用</div>
-                <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="">购买</div>
-                <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="">领取</div>
+                <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">购买</div>
+                <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">领取</div>
                 <div v-else-if="coupon.quantity <= 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">已领完</div>
                 <div class="notice" v-if="coupon.quantity > 999">剩余<span>999</span>张</div>
                 <div class="notice" v-else-if="coupon.quantity > 0 && coupon.quantity <= 999">剩余<span>{{coupon.quantity}}</span>张</div>
@@ -244,10 +244,17 @@ export default {
       this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
         if (res.status_code) {
           if (res.status_code === 401) {
-            let redirect = this.$router.currentRoute.fullPath
-            let redirectUri = baseRedirectUrl + '/wechat.html'
-            let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
-            window.location.href = oauthUrl
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">未登录</span>',
+              position: 'middle'
+            })
+            setTimeout(() => {
+              let redirect = this.$router.currentRoute.fullPath
+              let redirectUri = baseRedirectUrl + '/wechat.html'
+              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              window.location.href = oauthUrl
+            }, 2000)
             return false
           } else {
             this.$vux.toast.show({
@@ -263,6 +270,46 @@ export default {
     },
     callMobile (mobile) {
       window.location.href = 'tel://' + mobile
+    },
+    receive (pcid, couponIndex) {
+      this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
+        if (typeof res.payUrl === 'undefined') {
+          if (res.status_code === 401) {
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">未登录</span>',
+              position: 'middle'
+            })
+            setTimeout(() => {
+              let redirect = this.$router.currentRoute.fullPath
+              let redirectUri = baseRedirectUrl + '/wechat.html'
+              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              window.location.href = oauthUrl
+            }, 2000)
+            return false
+          } else {
+            let message = res.message ? res.message : '未知错误'
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">' + message + '</span>',
+              position: 'middle'
+            })
+            return false
+          }
+        } else if (res.payUrl === '') {
+          this.$vux.toast.show({
+            type: 'text',
+            text: '<span style="font-size: 14px">领取成功</span>',
+            position: 'middle'
+          })
+          this.coupon.quantity = this.coupon.quantity - 1
+          this.coupon.user_count = this.coupon.user_count + 1
+          return true
+        } else {
+          window.location.href = res.payUrl
+          return true
+        }
+      })
     }
   }
 }

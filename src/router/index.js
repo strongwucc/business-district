@@ -39,7 +39,7 @@ export default new Router({
     },
 
     {
-      path: '/merchant',
+      path: '/merchant/:pCode?/:typeName?',
       name: 'merchant',
       component: Merchant,
       meta: {

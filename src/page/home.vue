@@ -24,15 +24,19 @@
           </swiper>
         </div>
         <div class="navs">
-          <div class="banner-item">
+          <!--<div class="banner-item" v-for="(type, typeIndex) in merchantTypes" :key="typeIndex" @click.stop="viewMerchantList(type.code, type.name)">-->
+            <!--<img :src="type.pic|upload"/>-->
+            <!--<span>{{type.name}}</span>-->
+          <!--</div>-->
+          <div class="banner-item" @click.stop="viewMerchantList(1000, '美食')">
             <img src="../assets/img/home/home_mk_meishi@2x.png"/>
             <span>美食</span>
           </div>
-          <div class="banner-item">
+          <div class="banner-item" @click.stop="viewMerchantList(2000, '购物')">
             <img src="../assets/img/home/home_mk_gouwu@2x.png"/>
             <span>购物</span>
           </div>
-          <div class="banner-item">
+          <div class="banner-item" @click.stop="viewMerchantList(3000, '娱乐')">
             <img src="../assets/img/home/home_mk_yule@2x.png"/>
             <span>娱乐</span>
           </div>
@@ -213,6 +217,9 @@ export default {
     },
     goSearch () {
       this.$router.push('/merchant')
+    },
+    viewMerchantList (pCode, typeName) {
+      this.$router.push({name: 'merchant', params: {pCode: pCode, typeName: typeName}})
     },
     viewMerchantDetail (merId) {
       this.$router.push({name: 'merchant_detail', params: {merId: merId}})

@@ -90,13 +90,13 @@ export default {
           let message = res.message ? res.message : '未知错误'
           this.$vux.toast.show({
             type: 'text',
-            text: message,
+            text: '<span style="font-size: 14px">' + message + '</span>',
             position: 'middle'
           })
         } else if (res.payUrl === '') {
           this.$vux.toast.show({
             type: 'text',
-            text: '领取成功',
+            text: '<span style="font-size: 14px">领取成功</span>',
             position: 'middle'
           })
           this.coupon.quantity = this.coupon.quantity - 1

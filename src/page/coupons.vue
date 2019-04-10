@@ -61,6 +61,7 @@
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { LoadMore } from 'vux'
+import { baseRedirectUrl, appId } from '../../src/config/env'
 export default {
   name: 'coupons',
   components: { LoadMore },
@@ -191,24 +192,41 @@ export default {
     },
     receive (pcid, couponIndex) {
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
-        console.log(typeof res.payUrl)
         if (typeof res.payUrl === 'undefined') {
-          let message = res.message ? res.message : '未知错误'
-          this.$vux.toast.show({
-            type: 'text',
-            text: message,
-            position: 'middle'
-          })
+          if (res.status_code === 401) {
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">未登录</span>',
+              position: 'middle'
+            })
+            setTimeout(() => {
+              let redirect = this.$router.currentRoute.fullPath
+              let redirectUri = baseRedirectUrl + '/wechat.html'
+              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              window.location.href = oauthUrl
+            }, 2000)
+            return false
+          } else {
+            let message = res.message ? res.message : '未知错误'
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">' + message + '</span>',
+              position: 'middle'
+            })
+            return false
+          }
         } else if (res.payUrl === '') {
           this.$vux.toast.show({
             type: 'text',
-            text: '领取成功',
+            text: '<span style="font-size: 14px">领取成功</span>',
             position: 'middle'
           })
           this.coupon.quantity = this.coupon.quantity - 1
           this.coupon.user_count = this.coupon.user_count + 1
+          return true
         } else {
           window.location.href = res.payUrl
+          return true
         }
       })
     },

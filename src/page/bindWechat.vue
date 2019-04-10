@@ -49,7 +49,7 @@ export default {
         } else {
           this.$vux.toast.show({
             type: 'text',
-            text: res.message ? res.message : '授权失败',
+            text: res.message ? '<span style="font-size: 14px">' + res.message + '</span>' : '<span style="font-size: 14px">授权失败</span>',
             position: 'middle'
           })
         }
