@@ -47,7 +47,7 @@
         </div>
       </ul>
     </div>
-    <div class="no-order" v-else>
+    <div class="no-order" v-if="orders.length === 0 && !showLoading">
       <img src="../assets/img/orders/states_order_kong@2x.png"/>
       <span class="notice">暂时没有订单哦</span>
     </div>
@@ -107,8 +107,10 @@ export default {
         page_limit: this.pageLimit
       }
       this.showLoading = true
+      this.$vux.loading.show({})
       this.$http.post(this.API.orders + '?page=' + page, postData).then(res => {
         this.showLoading = false
+        this.$vux.loading.hide()
         this.orders = this.orders.concat(res.data)
         this.currentPage = res.meta.pagination.current_page
         this.totalPage = res.meta.pagination.total_pages

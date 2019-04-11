@@ -107,7 +107,9 @@ export default {
   },
   methods: {
     showCouponDetail () {
+      this.$vux.loading.show({})
       this.$http.post(this.API.couponShow, {qrcode: this.code}).then(res => {
+        this.$vux.loading.hide()
         if (res.id) {
           this.coupon = res
         } else {

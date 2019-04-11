@@ -73,7 +73,8 @@ export default {
       typeScroll: '',
       pullUp: true,
       showLoading: false,
-      scrolling: false
+      scrolling: false,
+      posting: false
     }
   },
   computed: {
@@ -163,8 +164,14 @@ export default {
       this.scroll && this.scroll.refresh()
     },
     cancelFav (favIndex, merId) {
-      console.log(favIndex)
+      if (this.posting) {
+        return false
+      }
+      this.$vux.loading.show({})
+      this.posting = true
       this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
+        this.$vux.loading.hide()
+        this.posting = false
         if (res.status_code) {
           this.$vux.toast.show({
             type: 'text',

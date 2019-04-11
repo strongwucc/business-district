@@ -110,7 +110,9 @@ export default {
       this.$router.push('/point')
     },
     getUserInfo () {
+      this.$vux.loading.show({})
       this.$http.post(this.API.userInfo).then(res => {
+        this.$vux.loading.hide()
         if (res.member_id) {
           let bindStatus = res.bound_phone ? 1 : 0
           this.user = res

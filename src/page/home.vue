@@ -107,7 +107,8 @@ export default {
       scroll: {},
       pullUp: true,
       showLoading: false,
-      scrolling: false
+      scrolling: false,
+      posting: false
     }
   },
   computed: {
@@ -133,7 +134,9 @@ export default {
   },
   methods: {
     getInitData () {
+      this.$vux.loading.show({})
       this.$http.all([this.getBanners(), this.getMerchantTypes(), this.getActivities(), this.getHotMerchants()]).then(axios.spread((bannerRes, merchantTypesRes, activitiesRes, hotMerchantsRes) => {
+        this.$vux.loading.hide()
         // this.banners = bannerRes.data
         this.merchantTypes = merchantTypesRes.data
         this.activities = activitiesRes.data

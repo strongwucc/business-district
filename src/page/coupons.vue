@@ -77,7 +77,8 @@ export default {
       typeScroll: '',
       pullUp: true,
       showLoading: false,
-      scrolling: false
+      scrolling: false,
+      posting: false
     }
   },
   computed: {
@@ -191,7 +192,14 @@ export default {
       this.getCoupons()
     },
     receive (pcid, couponIndex) {
+      if (this.posting) {
+        return false
+      }
+      this.$vux.loading.show({})
+      this.posting = true
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
+        this.$vux.loading.hide()
+        this.posting = false
         if (typeof res.payUrl === 'undefined') {
           if (res.status_code === 401) {
             this.$vux.toast.show({

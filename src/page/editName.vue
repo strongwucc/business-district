@@ -50,8 +50,10 @@ export default {
         })
         return false
       }
+      this.$vux.loading.show({})
       this.posting = true
       this.$http.post(this.API.editUserInfo, {nickname: this.nickName}).then(res => {
+        this.$vux.loading.hide()
         this.posting = false
         if (res.id) {
           this.$vux.toast.show({

@@ -98,7 +98,7 @@
             热门商户
           </div>
           <div class="content">
-            <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex">
+            <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex" @click.stop="viewMerchantDetail(merchant.mer_id)">
               <div class="logo">
                 <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
               </div>
@@ -115,7 +115,7 @@
         </div>
       </div>
     </div>
-    <div class="view-merchant">去商户看看</div>
+    <div class="view-merchant" @click.stop="viewMerchant">去商户看看</div>
   </div>
 </template>
 
@@ -140,7 +140,8 @@ export default {
       scroll: {},
       pullUp: true,
       showLoading: false,
-      scrolling: false
+      scrolling: false,
+      posting: false
     }
   },
   computed: {
@@ -169,7 +170,9 @@ export default {
   },
   methods: {
     getInitData () {
+      this.$vux.loading.show({})
       this.$http.all([this.getMerchantDetail(), this.getHotMerchants()]).then(axios.spread((merchant, hotMerchantsRes) => {
+        this.$vux.loading.hide()
         this.merchant = merchant
         this.hotMerchants = hotMerchantsRes.data
         this.currentPage = hotMerchantsRes.meta.pagination.current_page
@@ -241,7 +244,14 @@ export default {
       this.scroll && this.scroll.refresh()
     },
     doFav (merId) {
+      if (this.posting) {
+        return false
+      }
+      this.$vux.loading.show({})
+      this.posting = true
       this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
+        this.$vux.loading.hide()
+        this.posting = false
         if (res.status_code) {
           if (res.status_code === 401) {
             this.$vux.toast.show({
@@ -272,7 +282,14 @@ export default {
       window.location.href = 'tel://' + mobile
     },
     receive (pcid, couponIndex) {
+      if (this.posting) {
+        return false
+      }
+      this.$vux.loading.show({})
+      this.posting = true
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
+        this.$vux.loading.hide()
+        this.posting = false
         if (typeof res.payUrl === 'undefined') {
           if (res.status_code === 401) {
             this.$vux.toast.show({
@@ -310,6 +327,12 @@ export default {
           return true
         }
       })
+    },
+    viewMerchantDetail (merId) {
+      this.$router.push({name: 'merchant_detail', params: {merId: merId}})
+      this.reload()
+    },
+    viewMerchant () {
     }
   }
 }

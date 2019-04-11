@@ -34,7 +34,7 @@
           </div>
         </ul>
       </div>
-      <div class="no-records" v-else>
+      <div class="no-records" v-if="records.length === 0 && !showLoading">
         <img src="../assets/img/point/states_jf_kong@2x.png"/>
         <span>还没有积分纪录哦~</span>
       </div>
@@ -77,7 +77,7 @@ export default {
       pullUp: true,
       showLoading: false,
       scrolling: false,
-      showDescription: false
+      showDescription: false,
     }
   },
   computed: {
@@ -114,8 +114,10 @@ export default {
         page_limit: this.pageLimit
       }
       this.showLoading = true
+      this.$vux.loading.show({})
       this.$http.post(this.API.points + '?page=' + page, postData).then(res => {
         this.showLoading = false
+        this.$vux.loading.hide()
         this.records = this.records.concat(res.data)
         this.currentPage = res.meta.pagination.current_page
         this.totalPage = res.meta.pagination.total_pages

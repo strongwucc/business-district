@@ -42,7 +42,7 @@
         </div>
       </ul>
     </div>
-    <div class="no-coupon" v-else>
+    <div class="no-coupon" v-if="coupons.length === 0 && !showLoading">
       <img src="../assets/img/my_coupons/states_yhq_kong@2x.png"/>
       <span class="notice">暂时没有优惠券哦</span>
       <span class="btn" v-show="status === 'unused'">去领取中心</span>
@@ -103,8 +103,10 @@ export default {
         page_limit: this.pageLimit
       }
       this.showLoading = true
+      this.$vux.loading.show({})
       this.$http.post(this.API.myCoupons + '?page=' + page, postData).then(res => {
         this.showLoading = false
+        this.$vux.loading.hide()
         this.coupons = this.coupons.concat(res.data)
         this.currentPage = 1
         this.totalPage = 1

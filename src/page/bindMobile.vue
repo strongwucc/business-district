@@ -77,8 +77,10 @@ export default {
         return false
       }
 
+      this.$vux.loading.show({})
       this.posting = true
       this.$http.post(this.API.smsCode, {mobile: this.mobile}).then(res => {
+        this.$vux.loading.hide()
         this.posting = false
         if (res.key) {
           this.key = res.key
@@ -119,9 +121,11 @@ export default {
         return false
       }
 
+      this.$vux.loading.show({})
       this.posting = true
 
       this.$http.post(this.API.bindMobile, {mobile: this.mobile, verification_key: this.key, verification_code: this.smsCode}).then(res => {
+        this.$vux.loading.hide()
         this.posting = false
         if (res.status_code) {
           this.$vux.toast.show({

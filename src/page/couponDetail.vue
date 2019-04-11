@@ -58,7 +58,8 @@ export default {
     return {
       pcId: '',
       coupon: {},
-      showNotice: false
+      showNotice: false,
+      posting: false
     }
   },
   computed: {
@@ -77,7 +78,9 @@ export default {
   },
   methods: {
     getCouponDetail () {
+      this.$vux.loading.show({})
       this.$http.post(this.API.couponDetail, {pcid: this.pcId}).then(res => {
+        this.$vux.loading.hide()
         if (res.id) {
           this.coupon = res
         } else {
@@ -85,7 +88,15 @@ export default {
       })
     },
     receive (pcid) {
+      if (this.posting) {
+        return false
+      }
+
+      this.$vux.loading.show({})
+      this.posting = true
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
+        this.$vux.loading.hide()
+        this.posting = false
         if (typeof res.payUrl === 'undefined') {
           let message = res.message ? res.message : '未知错误'
           this.$vux.toast.show({

@@ -17,7 +17,8 @@ export default {
   data () {
     return {
       code: '',
-      redirect: ''
+      redirect: '',
+      posting: false
     }
   },
   computed: {
@@ -38,7 +39,15 @@ export default {
   },
   methods: {
     bindWechat () {
+      if (this.posting) {
+        return false
+      }
+
+      this.$vux.loading.show({})
+      this.posting = true
       this.$http.post(this.API.authorizations, {type: 'weixin', code: this.code}).then(res => {
+        this.$vux.loading.hide()
+        this.posting = false
         if (res.access_token) {
           localStorage.setItem('access_token', res.access_token)
           if (this.redirect) {
