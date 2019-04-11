@@ -2,7 +2,7 @@
   <div class="edit-name-page">
     <div class="edit-area">
       <input v-model="nickName" placeholder="请输入昵称"/>
-      <img src="../assets/img/base/icon_del@2x.png"/>
+      <img @click.stop="emptyNickName" src="../assets/img/base/icon_del@2x.png"/>
     </div>
     <div class="btn" @click.stop="saveName">保存</div>
   </div>
@@ -71,6 +71,9 @@ export default {
         })
         return false
       })
+    },
+    emptyNickName () {
+      this.nickName = ''
     }
   }
 }

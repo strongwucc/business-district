@@ -18,21 +18,50 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
+function getRefreshToken () {
+  // print('TRYING TO GET TOKEN...')
+  return axios({
+    url: baseUrl + 'authorizations/update',
+    method: 'post'
+  })
+}
+
 axios.interceptors.response.use(function (response) {
   // Do something with response data
   // console.log(response)
   return response
 }, function (error) {
-  // Do something with response error
-  console.log(error.response)
-  console.log(router.currentRoute)
-  if (error.response && error.response.status === 401 && router.currentRoute.meta.auth === 1) {
-    let redirect = router.currentRoute.fullPath
-    let redirectUri = baseRedirectUrl + '/wechat.html'
-    let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
-    window.location.href = oauthUrl
+  if (error.response.status === 401 && error.config && !error.config.__isRetryRequest) {
+    error.config.__isRetryRequest = true
+    return getRefreshToken()
+      .then(function (success) {
+        localStorage.setItem('access_token', success.data.access_token)
+        error.config.__isRetryRequest = true
+        error.config.headers.Authorization = 'Bearer ' + success.data.access_token
+        return axios(error.config)
+      })
+      .catch(function (err) {
+        console.log('Refresh login error: ', err)
+        if (router.currentRoute.meta.auth === 1) {
+          let redirect = router.currentRoute.fullPath
+          let redirectUri = baseRedirectUrl + '/wechat.html'
+          let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+          window.location.href = oauthUrl
+        }
+        return Promise.reject(error)
+      })
   }
-  return Promise.reject(error)
+  // Do something with response error
+  // console.log(error.response)
+  // console.log(router.currentRoute)
+  // console.log(error.config)
+  // if (error.response && error.response.status === 401 && router.currentRoute.meta.auth === 1) {
+  //   let redirect = router.currentRoute.fullPath
+  //   let redirectUri = baseRedirectUrl + '/wechat.html'
+  //   let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+  //   window.location.href = oauthUrl
+  // }
+  // return Promise.reject(error)
 })
 
 export default class http {

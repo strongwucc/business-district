@@ -17,7 +17,7 @@
                 <img src="../assets/img/base/icon_collection_gray@2x.png"/>
                 <span>收藏</span>
               </template>
-              <template v-if="merchant.is_fav === 1">
+              <template v-if="merchant.is_fav >= 1">
                 <img src="../assets/img/base/icon_collection_high@2x.png"/>
                 <span>已收藏</span>
               </template>
@@ -250,6 +250,7 @@ export default {
       this.$vux.loading.show({})
       this.posting = true
       this.$http.post(this.API.fav, {mer_id: merId}).then(res => {
+        console.log(res)
         this.$vux.loading.hide()
         this.posting = false
         if (res.status_code) {

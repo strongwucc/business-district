@@ -10,7 +10,7 @@
                 <div>收藏</div>
               </swipeout-button>
             </div>
-            <div slot="content" class="vux-1px-t">
+            <div slot="content" class="vux-1px-t" @click.stop="viewMerchantDetail(fav.mer_id)">
               <li class="item">
                 <div class="info">
                   <div class="left">
@@ -47,7 +47,7 @@
         </div>
       </ul>
     </div>
-    <div class="no-collection" v-else>
+    <div class="no-collection" v-if="collection.length === 0 && !showLoading">
       <img class="icon" src="../assets/img/collection/states_shoucang_kong@2x.png"/>
       <span class="notice">暂时没有收藏哦</span>
       <span class="btn">去逛逛</span>
@@ -108,8 +108,10 @@ export default {
         page_limit: this.pageLimit
       }
       this.showLoading = true
+      this.$vux.loading.show({})
       this.$http.post(this.API.favs + '?page=' + page, postData).then(res => {
         this.showLoading = false
+        this.$vux.loading.hide()
         res.data.forEach(e => {
           e.showContact = 0
         })
@@ -182,6 +184,9 @@ export default {
         }
         this.collection.splice(favIndex, 1)
       })
+    },
+    viewMerchantDetail (merId) {
+      this.$router.push({name: 'merchant_detail', params: {merId: merId}})
     }
   }
 }
