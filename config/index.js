@@ -52,7 +52,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../business-district'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/coupon/',
+    assetsPublicPath: '/business-district/',
 
     /**
      * Source Maps
