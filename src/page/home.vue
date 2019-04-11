@@ -54,10 +54,12 @@
             <span class="sub-title">超值享不停</span>
           </div>
           <div class="content">
-            <div class="item"><img src=""/></div>
-            <div class="item"><img src=""/></div>
-            <div class="item"><img src=""/></div>
-            <div class="item"><img src=""/></div>
+            <div class="item" v-for="(activity, activityIndex) in activities" :key="activityIndex" @click.stop="viewActivity(activity.url)">
+              <img :src="activity.pic|upload"/>
+            </div>
+            <!--<div class="item"><img src=""/></div>-->
+            <!--<div class="item"><img src=""/></div>-->
+            <!--<div class="item"><img src=""/></div>-->
           </div>
         </div>
         <div class="merchants" v-if="hotMerchants.length > 0">
@@ -229,6 +231,9 @@ export default {
     },
     goCouponsCenter () {
       this.$router.push({name: 'coupons'})
+    },
+    viewActivity (url) {
+      window.location.href = url
     }
   }
 }
@@ -398,6 +403,11 @@ export default {
               height:100px;
               background:rgba(242,242,242,1);
               border-radius:4px;
+              img {
+                width: 167.5px;
+                height: 100px;
+                border-radius:4px;
+              }
             }
             .item:nth-child(2n - 1) {
               margin-right: 10px;

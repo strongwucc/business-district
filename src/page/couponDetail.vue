@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { baseRedirectUrl, appId } from '../../src/config/env'
 export default {
   name: 'coupon_detail',
   components: {},
@@ -98,12 +99,28 @@ export default {
         this.$vux.loading.hide()
         this.posting = false
         if (typeof res.payUrl === 'undefined') {
-          let message = res.message ? res.message : '未知错误'
-          this.$vux.toast.show({
-            type: 'text',
-            text: '<span style="font-size: 14px">' + message + '</span>',
-            position: 'middle'
-          })
+          if (res.status_code === 401) {
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">未登录</span>',
+              position: 'middle'
+            })
+            setTimeout(() => {
+              let redirect = this.$router.currentRoute.fullPath
+              let redirectUri = baseRedirectUrl + '/wechat.html'
+              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              window.location.href = oauthUrl
+            }, 2000)
+            return false
+          } else {
+            let message = res.message ? res.message : '未知错误'
+            this.$vux.toast.show({
+              type: 'text',
+              text: '<span style="font-size: 14px">' + message + '</span>',
+              position: 'middle'
+            })
+            return false
+          }
         } else if (res.payUrl === '') {
           this.$vux.toast.show({
             type: 'text',

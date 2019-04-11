@@ -29,7 +29,7 @@
             <span>晚上好</span>
           </template>
         </div>
-        <div class="code">
+        <div class="code" @click.stop="showCode = true">
           <img class="icon" src="../assets/img/center/member_icon_erweima@2x.png"/>
           <span>会员码</span>
         </div>
@@ -68,18 +68,36 @@
         </div>
       </div>
     </div>
+    <div class="mask" v-show="showCode"></div>
+    <transition name="fade">
+      <div class="member-code" v-show="showCode">
+        <div class="padding"></div>
+        <div class="code-title">动态会员码</div>
+        <div class="code-sub-title">会员余额支付,请向店员展示</div>
+        <div class="barcode" v-if="user.mobile"><barcode :value="user.mobile" :options="{ displayValue: true, height: 64.5, width: 2.5, fontSize: 14, textMargin: 2.5}"></barcode></div>
+        <div class="qrcode"><qrcode :value="user.mobile" :options="{ width: 151, margin: 0 }"></qrcode></div>
+        <div class="notice notice-1">每60s自动刷新</div>
+        <div class="notice">如遇扫码失败</div>
+        <div class="notice">请将屏幕调至最亮重新扫码</div>
+        <div class="refresh">手动刷新动态码</div>
+        <div class="close" @click.stop="showCode = false">x</div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import Barcode from '@xkeshi/vue-barcode'
+import Qrcode from '@chenfengyuan/vue-qrcode'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'center',
-  components: {},
+  components: { Barcode, Qrcode },
   inject: ['reload'], // 引入方法
   data () {
     return {
-      user: {}
+      user: {},
+      showCode: false
     }
   },
   computed: {
@@ -140,6 +158,14 @@ export default {
     from {opacity:1;}
     to {opacity:0;}
   }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
+
   .center-page {
     height: 100%;
     background:rgba(242,244,247,1);
@@ -148,6 +174,7 @@ export default {
       height:130px;
       background:linear-gradient(150deg,rgba(56,161,255,1) 0%,rgba(164,215,255,1) 100%);
       opacity:0.6;
+      z-index: 99;
     }
     .user-info {
       position: absolute;
@@ -305,6 +332,83 @@ export default {
         .right {
           border-bottom: 0;
         }
+      }
+    }
+    .mask {
+      position: absolute;
+      z-index:99;
+      width: 100%;
+      top: 0;
+      bottom: 0;
+      background:rgba(51,51,51,1);
+      opacity:0.5;
+    }
+    .member-code {
+      position: absolute;
+      z-index: 99;
+      top:30px;
+      left: 20.5px;
+      width:334px;
+      height:460px;
+      border-radius:4px;
+      background:rgba(255,255,255,1);
+      .padding {
+        width: 100%;
+        height: 9.5px;
+        background:rgba(56,161,255,1);
+        border-radius: 4px 4px 0 0;
+      }
+      .code-title {
+        margin-top: 13.5px;
+        height:24px;
+        font-size:17px;
+        font-weight:400;
+        line-height:24px;
+      }
+      .code-sub-title {
+        height:16.5px;
+        font-size:12px;
+        font-weight:400;
+        line-height:16.5px;
+        color:rgba(153,153,153,1);
+      }
+      .notice {
+        height: 17px;
+        font-size:12px;
+        font-weight:400;
+        line-height:17px;
+        color:rgba(153,153,153,1);
+      }
+      .notice-1 {
+        height:20px;
+        font-size:14px;
+        line-height:20px;
+        color:rgba(102,102,102,1);
+        margin-bottom: 7px;
+      }
+      .refresh {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        height:44px;
+        background:rgba(238,238,238,1);
+        opacity:0.8;
+        font-size:14px;
+        font-weight:400;
+        line-height:44px;
+        color:rgba(56,161,255,1);
+        border-radius: 0 0 4px 4px;
+      }
+      .close {
+        position: relative;
+        top:107.5px;
+        left: 150px;
+        width:34px;
+        height:34px;
+        background:rgba(102,102,102,1);
+        border-radius:50%;
+        line-height: 34px;
+        color: rgba(221,221,221,1);
       }
     }
   }
