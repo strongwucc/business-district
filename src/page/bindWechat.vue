@@ -1,7 +1,10 @@
 <template>
   <div class="bind-wechat-page">
-    <div class="logo"><img src="../assets/img/bind/set_ic_weixin_big@2x.png"/></div>
-    <div class="name">虹桥国际广场</div>
+    <div class="logo">
+      <img v-if="districtInfo.picture" :src="districtInfo.picture|upload"/>
+      <img src="../assets/img/bind/set_ic_weixin_big@2x.png" v-else/>
+    </div>
+    <div class="name">{{districtInfo.name}}</div>
     <div class="line"></div>
     <div class="notice">请确认以下授权信息</div>
     <div class="description">获得你的信息(头像，信息等)</div>
@@ -16,6 +19,7 @@ export default {
   inject: ['reload'], // 引入方法
   data () {
     return {
+      districtInfo: {},
       code: '',
       redirect: '',
       posting: false
@@ -34,10 +38,20 @@ export default {
     }
   },
   mounted () {
+    this.getDistrictInfo()
   },
   destroyed () {
   },
   methods: {
+    getDistrictInfo () {
+      this.$vux.loading.show({})
+      this.$http.post(this.API.info).then(res => {
+        this.$vux.loading.hide()
+        if (res.name) {
+          this.districtInfo = res
+        }
+      })
+    },
     bindWechat () {
       if (this.posting) {
         return false

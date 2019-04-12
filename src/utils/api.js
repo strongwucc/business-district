@@ -1,4 +1,5 @@
 export default {
+  info: 'district/info',
   banners: 'banners',
   merchantTypes: 'merchants/types',
   activities: 'activities',

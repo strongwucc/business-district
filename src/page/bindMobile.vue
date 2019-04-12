@@ -2,8 +2,11 @@
   <div class="bind-mobile-page">
     <div class="background"><img src="../assets/img/bind/register_bg@2x.png"/></div>
     <div class="form-table">
-      <div class="circle-name">虹桥国际中心广场</div>
-      <div class="logo"><img src="../assets/img/center/member_head_gril@2x.png"/></div>
+      <div class="circle-name">{{districtInfo.name}}</div>
+      <div class="logo">
+        <img v-if="userInfo.avatar" :src="userInfo.avatar|upload"/>
+        <img src="../assets/img/center/member_head_gril@2x.png" v-else/>
+      </div>
       <div class="item nick-name">
         <span class="label">昵称</span>
         <input v-model="nickName" placeholder="请输入昵称"/>
@@ -32,6 +35,7 @@ export default {
   inject: ['reload'], // 引入方法
   data () {
     return {
+      districtInfo: {},
       nickName: '',
       mobile: '',
       smsCode: '',
@@ -59,10 +63,20 @@ export default {
     if (this.userInfo.nickname) {
       this.nickName = this.userInfo.nickname
     }
+    this.getDistrictInfo()
   },
   destroyed () {
   },
   methods: {
+    getDistrictInfo () {
+      this.$vux.loading.show({})
+      this.$http.post(this.API.info).then(res => {
+        this.$vux.loading.hide()
+        if (res.name) {
+          this.districtInfo = res
+        }
+      })
+    },
     sendMsg () {
       if (this.posting) {
         return false
@@ -196,6 +210,7 @@ export default {
         img {
           width: 70px;
           height: 70px;
+          border-radius: 35px;
         }
       }
       .item {
