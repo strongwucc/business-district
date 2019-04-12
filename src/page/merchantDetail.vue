@@ -115,7 +115,7 @@
         </div>
       </div>
     </div>
-    <div class="view-merchant" @click.stop="viewMerchant">去商户看看</div>
+    <div v-if="merchant.sdm" class="view-merchant" @click.stop="viewMerchant">去商户看看</div>
   </div>
 </template>
 
@@ -123,8 +123,9 @@
 import axios from 'axios'
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
-import { Swiper, SwiperItem, LoadMore } from 'vux'
+import { Swiper, SwiperItem, LoadMore, md5 } from 'vux'
 import { appId, baseRedirectUrl } from '../config/env'
+import { mapState } from 'vuex'
 export default {
   name: 'merchant_detail',
   components: { Swiper, SwiperItem, LoadMore },
@@ -145,6 +146,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      userInfo: state => state.user.user_info
+    }),
     pullTxt: function () {
       let txt = ''
       if (this.pullUp === true && this.showLoading === false) {
@@ -334,6 +338,63 @@ export default {
       this.reload()
     },
     viewMerchant () {
+      if (this.merchant.sdm === '') {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '<span style="font-size: 14px">商户不存在</span>',
+          position: 'middle'
+        })
+        return false
+      }
+
+      if (!this.userInfo.mobile || !this.userInfo.member_id) {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '<span style="font-size: 14px">未登录</span>',
+          position: 'middle'
+        })
+        setTimeout(() => {
+          let redirect = this.$router.currentRoute.fullPath
+          let redirectUri = baseRedirectUrl + '/wechat.html'
+          let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+          window.location.href = oauthUrl
+        }, 2000)
+        return false
+      }
+
+      let postUrl = this.merchant.sdm + '/index.php/openapi/catering_route/platform_oauth'
+      let mobile = this.userInfo.mobile
+      let platformId = this.userInfo.member_id
+
+      // let signStr = 'mobile=' + mobile + '&platform_id=' + platformId + '&' + md5(this.merId)
+      let signStr = 'mobile=' + mobile + '&platform_id=' + platformId + '&' + md5('99904081602435')
+      let _this = this
+      let sign = md5(signStr)
+
+      axios.post(postUrl, {
+        mobile: mobile,
+        platform_id: platformId,
+        sign_type: 'MD5',
+        sign: sign
+      }).then(function (response) {
+        if (response.status === 200 && response.data.return_code === '0000' && response.data.redirect_url) {
+          window.location.href = response.data.redirect_url
+        } else {
+          _this.$vux.toast.show({
+            type: 'text',
+            text: '<span style="font-size: 14px">查看失败</span>',
+            position: 'middle'
+          })
+        }
+        console.log(response)
+      }).catch(function (error) {
+        console.log(error)
+        _this.$vux.toast.show({
+          type: 'text',
+          text: '<span style="font-size: 14px">查看失败</span>',
+          position: 'middle'
+        })
+      })
     }
   }
 }
