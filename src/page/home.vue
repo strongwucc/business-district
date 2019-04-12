@@ -48,7 +48,7 @@
         <div class="coupons" @click.stop="goCouponsCenter">
           <img src="../assets/img/home/home_rk-lingquan@2x.png"/>
         </div>
-        <div class="activities">
+        <div class="activities" v-if="activities && activities.length > 0">
           <div class="title">
             <span class="main-title">热门活动</span>
             <span class="sub-title">超值享不停</span>

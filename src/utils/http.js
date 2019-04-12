@@ -32,6 +32,16 @@ axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   if (error.response.status === 401 && error.config && !error.config.__isRetryRequest) {
+    let accessToken = localStorage.getItem('access_token')
+
+    if (!accessToken && router.currentRoute.meta.auth === 1) {
+      let redirect = router.currentRoute.fullPath
+      let redirectUri = baseRedirectUrl + '/wechat.html'
+      let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+      window.location.href = oauthUrl
+      return Promise.reject(error)
+    }
+
     error.config.__isRetryRequest = true
     return getRefreshToken()
       .then(function (success) {

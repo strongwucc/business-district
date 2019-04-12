@@ -13,13 +13,14 @@ let appId = 'wx583be2083a929fb0'
 let baseRedirectUrl = 'http://' + window.location.host + '/'
 
 if (process.env.NODE_ENV === 'development') {
-  rootUrl = 'http://district.test'
+  // rootUrl = 'http://district.test'
+  rootUrl = 'http://ceshi7.sdykt.com.cn:1280'
   baseUrl = rootUrl + '/api/'
-  baseRedirectUrl = 'http://district.test/'
+  baseRedirectUrl = 'http://ceshi7.sdykt.com.cn:1280/business-district/'
   appId = 'wx583be2083a929fb0'
 } else if (process.env.NODE_ENV === 'production') {
   rootUrl = 'http://' + window.location.host
-  baseUrl = rootUrl + '/business-district/'
+  baseUrl = rootUrl + '/api/'
   baseRedirectUrl = 'http://' + window.location.host + '/business-district/'
   appId = 'wx583be2083a929fb0'
 }
