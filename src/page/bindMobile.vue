@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Valid from '../utils/valid'
 export default {
   name: 'center',
@@ -68,6 +68,9 @@ export default {
   destroyed () {
   },
   methods: {
+    ...mapMutations([
+      'set_user_bind_status'
+    ]),
     getDistrictInfo () {
       this.$vux.loading.show({})
       this.$http.post(this.API.info).then(res => {
@@ -148,6 +151,8 @@ export default {
             position: 'middle'
           })
         } else {
+          this.set_user_bind_status(1)
+          localStorage.setItem('user_is_bind', 1)
           this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">绑定成功</span>',
@@ -249,6 +254,10 @@ export default {
         }
         .seconds {
           color:rgba(158,209,255,1);
+          height:20px;
+          font-size:14px;
+          font-weight:400;
+          line-height:20px;
         }
       }
       .btn {

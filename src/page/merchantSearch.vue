@@ -8,7 +8,7 @@
         </form>
         <img class="del" src="../assets/img/base/icon_del@2x.png" @click.stop="delSearchKey"/>
       </div>
-      <div class="action">取消</div>
+      <div class="action" @click.stop="$router.push({path: 'merchant'})">取消</div>
     </div>
     <div class="history">
       <div class="title-area">
@@ -81,6 +81,7 @@ export default {
       }
       userInfo.keywords = keywords
       this.set_user_info(userInfo)
+      this.searchKey = searchKey
       this.$router.push({path: 'merchant', query: { key: searchKey }})
     },
     delSearchKey () {

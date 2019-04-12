@@ -50,7 +50,7 @@
     <div class="no-collection" v-if="collection.length === 0 && !showLoading">
       <img class="icon" src="../assets/img/collection/states_shoucang_kong@2x.png"/>
       <span class="notice">暂时没有收藏哦</span>
-      <span class="btn">去逛逛</span>
+      <span class="btn" @click.stop="$router.push({path: 'merchant'})">去逛逛</span>
     </div>
   </div>
 </template>

@@ -32,6 +32,7 @@ export default {
       }
       if (result.member_id) {
         let bindStatus = result.bound_phone ? 1 : 0
+        console.log(bindStatus)
         commit('set_user_bind_status', bindStatus)
         commit('set_user_login_status', 1)
         commit('set_user_info', result)
@@ -43,30 +44,23 @@ export default {
     })
 
     // 路由守卫
-    // router.beforeEach((to, from, next) => {
-    //   if (to.meta.title) {
-    //     document.title = to.meta.title
-    //   }
-    //
-    //   if (to.meta.auth === 1) {
-    //     let redirect = to.fullPath
-    //     console.log(parseInt(isLogin) === 0)
-    //     console.log(parseInt(isBind) === 0)
-    //     if (parseInt(isLogin) === 0) {
-    //       let redirectUri = baseRedirectUrl + '/wechat.html'
-    //       let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
-    //       window.location.href = oauthUrl
-    //       // console.log(1111111)
-    //     } else if (parseInt(isBind) === 0 && to.name !== 'bind_mobile') {
-    //       next({
-    //         path: '/bind_mobile',
-    //         query: {redirect: redirect} // 将跳转的路由path作为参数，登录成功后跳转到该路由
-    //       })
-    //     }
-    //     next()
-    //   } else {
-    //     next()
-    //   }
-    // })
+    router.beforeEach((to, from, next) => {
+      if (to.meta.title) {
+        document.title = to.meta.title
+      }
+
+      let redirect = to.fullPath
+      let isLogin = localStorage.getItem('user_is_login')
+      let isBind = localStorage.getItem('user_is_bind')
+      console.log(parseInt(isLogin) === 0)
+      console.log(parseInt(isBind) === 0)
+      if (parseInt(isLogin) === 1 && parseInt(isBind) === 0 && to.name !== 'bind_mobile') {
+        next({
+          path: '/bind_mobile',
+          query: {redirect: redirect} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        })
+      }
+      next()
+    })
   }
 }

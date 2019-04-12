@@ -74,14 +74,16 @@
         <div class="padding"></div>
         <div class="code-title">动态会员码</div>
         <div class="code-sub-title">会员余额支付,请向店员展示</div>
-        <div class="barcode" v-if="user.mobile"><barcode :value="user.mobile" :options="{ displayValue: true, height: 64.5, width: 2.5, fontSize: 14, textMargin: 2.5}"></barcode></div>
-        <div class="qrcode"><qrcode :value="user.mobile" :options="{ width: 151, margin: 0 }"></qrcode></div>
+        <div class="barcode" v-if="user.mobile"><barcode :value="user.mobile" :options="{ displayValue: true, height: 64.5, width: 2, fontSize: 14, textMargin: 2.5}"></barcode></div>
+        <div class="qrcode"><qrcode :value="user.mobile" :options="{ width: 121, margin: 0 }"></qrcode></div>
         <div class="notice notice-1">每60s自动刷新</div>
         <div class="notice">如遇扫码失败</div>
         <div class="notice">请将屏幕调至最亮重新扫码</div>
         <div class="refresh">手动刷新动态码</div>
-        <div class="close" @click.stop="showCode = false">x</div>
       </div>
+    </transition>
+    <transition name="fade">
+      <div v-show="showCode" class="close" @click.stop="showCode = false">x</div>
     </transition>
   </div>
 </template>
@@ -399,17 +401,18 @@ export default {
         color:rgba(56,161,255,1);
         border-radius: 0 0 4px 4px;
       }
-      .close {
-        position: relative;
-        top:87.5px;
-        left: 150px;
-        width:34px;
-        height:34px;
-        background:rgba(102,102,102,1);
-        border-radius:50%;
-        line-height: 34px;
-        color: rgba(221,221,221,1);
-      }
+    }
+    .close {
+      z-index: 99;
+      position: relative;
+      top:30px;
+      left: 171px;
+      width:34px;
+      height:34px;
+      background:rgba(102,102,102,1);
+      border-radius:50%;
+      line-height: 34px;
+      color: rgba(221,221,221,1);
     }
   }
 </style>

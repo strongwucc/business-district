@@ -4,17 +4,19 @@
       <div class="scroll-search" v-show="scrolling">
         <div class="search-box" @click.stop="goSearch">
           <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
-          <span class="notice">输入商户名称</span>
+          <span class="notice" v-if="searchKey === ''">输入商户名称</span>
+          <span class="notice" v-if="searchKey">{{searchKey}}</span>
         </div>
       </div>
     <!--</transition>-->
     <!--<transition name="fade">-->
       <div class="search" v-show="!scrolling" @click.stop="goSearch">
         <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
-        <span class="notice">输入商户名称</span>
+        <span class="notice" v-if="searchKey === ''">输入商户名称</span>
+        <span class="notice" v-if="searchKey">{{searchKey}}</span>
       </div>
     <!--</transition>-->
-    <div class="navs-stopping" :class="{'navs-active': navStop}">
+    <div class="navs-stopping" v-show="navStop" :class="{'navs-active': navStop}">
       <div class="nav type" @click.stop="showMerchantTypes">
         <span class="name">{{typeName}}</span>
         <img src="../assets/img/base/icon_arrow_down@2x.png"/>
@@ -349,6 +351,7 @@ export default {
       this.avgIndex = avgIndex
     },
     resetScreen () {
+      this.searchKey = ''
       this.perCostMin = ''
       this.perCostMax = ''
       this.costMin = ''
@@ -640,6 +643,7 @@ export default {
       }
     }
     .navs-stopping {
+      z-index: 0;
       position: fixed;
       top: 60px;
     }
