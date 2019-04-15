@@ -52,9 +52,16 @@
               <span class="txt">{{merchant.addr}}</span>
             </div>
           </div>
-          <div class="intro">
+          <div class="intro-detail" v-show="showIntro">
+            {{merchant.detail}}
+          </div>
+          <div class="intro" v-show="!showIntro" @click.stop="showIntro = true">
             <span>查看商户简介</span>
             <img src="../assets/img/base/icon_arrow_down@2x.png"/>
+          </div>
+          <div class="intro" v-show="showIntro" @click.stop="showIntro = false">
+            <span>收起</span>
+            <img src="../assets/img/base/icon_arrow_up@2x.png"/>
           </div>
         </div>
         <div class="coupons" v-if="merchant.coupons && merchant.coupons.data.length > 0">
@@ -142,7 +149,8 @@ export default {
       pullUp: true,
       showLoading: false,
       scrolling: false,
-      posting: false
+      posting: false,
+      showIntro: false
     }
   },
   computed: {
@@ -347,7 +355,8 @@ export default {
         return false
       }
 
-      if (!this.userInfo.mobile || !this.userInfo.member_id) {
+      console.log(this.userInfo)
+      if (!this.userInfo.member_id) {
         this.$vux.toast.show({
           type: 'text',
           text: '<span style="font-size: 14px">未登录</span>',
@@ -358,6 +367,19 @@ export default {
           let redirectUri = baseRedirectUrl + '/wechat.html'
           let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
           window.location.href = oauthUrl
+        }, 2000)
+        return false
+      }
+
+      if (!this.userInfo.mobile) {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '<span style="font-size: 14px">未绑定手机号</span>',
+          position: 'middle'
+        })
+        setTimeout(() => {
+          let redirect = this.$router.currentRoute.fullPath
+          this.$router.push({path: 'bind_mobile', query: {redirect: redirect}})
         }, 2000)
         return false
       }
@@ -533,6 +555,14 @@ export default {
                 height: 24px;
               }
             }
+          }
+          .intro-detail {
+            font-size:13px;
+            font-weight:400;
+            line-height:21px;
+            color:rgba(102,102,102,1);
+            text-align: left;
+            margin-top: 20px;
           }
           .intro {
             height: 44px;

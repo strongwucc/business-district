@@ -69,7 +69,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'set_user_bind_status'
+      'set_user_bind_status',
+      'set_user_info'
     ]),
     getDistrictInfo () {
       this.$vux.loading.show({})
@@ -153,6 +154,9 @@ export default {
         } else {
           this.set_user_bind_status(1)
           localStorage.setItem('user_is_bind', 1)
+          let userInfo = this.userInfo
+          userInfo.mobile = this.mobile
+          this.set_user_info(userInfo)
           this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">绑定成功</span>',
