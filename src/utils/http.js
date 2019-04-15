@@ -126,9 +126,9 @@ export default class http {
             resolve({status: '6000', msg: '网络出错啦:' + error.request})
           } else {
             // Something happened in setting up the request that triggered an Error
-            resolve({status: '6000', msg: '网络出错啦:' + error.message})
+            resolve({status: '6001', msg: '网络出错啦:' + error.message})
           }
-          // console.log(error.config)
+          resolve({status: '6002', msg: '服务器崩溃啦:' + error.message})
         })
     })
     return promise
