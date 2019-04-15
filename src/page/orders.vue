@@ -118,7 +118,9 @@ export default {
           this.pullUp = false
         }
         if (this.scroll) {
-          this.refresh()
+          this.$nextTick(() => {
+            this.refresh()
+          })
         } else {
           this.$nextTick(() => {
             this.initScroll()

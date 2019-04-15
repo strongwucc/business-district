@@ -125,7 +125,9 @@ export default {
           this.pullUp = false
         }
         if (this.scroll) {
-          this.refresh()
+          this.$nextTick(() => {
+            this.refresh()
+          })
         } else {
           this.$nextTick(() => {
             this.initScroll()
@@ -198,7 +200,8 @@ export default {
       this.$vux.loading.show({})
       this.posting = true
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
-        this.$vux.loading.hide
+        this.posting = false
+        this.$vux.loading.hide()
         if (typeof res.payUrl === 'undefined') {
           if (res.status_code === 401) {
             this.$vux.toast.show({
@@ -244,7 +247,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   @import "../assets/css/common";
   @keyframes myopacity
   {
@@ -297,7 +300,7 @@ export default {
           font-weight:400;
           line-height:37px;
           color:rgba(153,153,153,1);
-          margin-right: 40px;
+          margin-right: 35px;
           /*border-bottom: 3px solid #38A1FF;*/
         }
         .item:first-child {
@@ -319,9 +322,11 @@ export default {
       }
     }
     .coupons-wrapper{
-      margin-top: 194px;
+      height: 100%;
       padding: 0 10px;
+      overflow: hidden;
       .wrapper-content {
+        padding-top: 194px;
         .item{
           position: relative;
           display: flex;

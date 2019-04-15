@@ -221,7 +221,9 @@ export default {
           this.pullUp = false
         }
         if (this.scroll) {
-          this.refresh()
+          this.$nextTick(() => {
+            this.refresh()
+          })
         } else {
           this.$nextTick(() => {
             this.initScroll()
@@ -624,6 +626,7 @@ export default {
       width: 100%;
       height:44px;
       background:rgba(255,255,255,1);
+      box-shadow:0px 4px 5px rgba(0,0,0,0.05);
       display: flex;
       .nav {
         width: 50%;

@@ -195,9 +195,9 @@ export default {
           border-radius:2px;
           margin-right: 15px;
           margin-bottom: 15px;
-          font-size:16px;
+          font-size:13px;
           font-weight:400;
-          color:rgba(51,51,51,1);
+          color:rgba(102,102,102,1);
         }
       }
       .no-history {

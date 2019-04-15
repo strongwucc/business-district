@@ -221,7 +221,7 @@ export default {
       window.location.href = url
     },
     goSearch () {
-      this.$router.push('/merchant')
+      this.$router.push('/merchant_search')
     },
     viewMerchantList (pCode, typeName) {
       this.$router.push({name: 'merchant', params: {pCode: pCode, typeName: typeName}})
