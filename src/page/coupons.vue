@@ -198,8 +198,7 @@ export default {
       this.$vux.loading.show({})
       this.posting = true
       this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
-        this.$vux.loading.hide()
-        this.posting = false
+        this.$vux.loading.hide
         if (typeof res.payUrl === 'undefined') {
           if (res.status_code === 401) {
             this.$vux.toast.show({

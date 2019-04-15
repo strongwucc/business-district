@@ -400,7 +400,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   @import "../assets/css/common";
   @keyframes myopacity
   {
@@ -418,6 +418,8 @@ export default {
     height: 100%;
     background:rgba(246,246,246,1);
     .wrapper {
+      height: 100%;
+      overflow: hidden;
       .wrapper-content {
         .pics {
           background:rgba(255,255,255,1);

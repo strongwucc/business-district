@@ -1,5 +1,5 @@
 <template>
-  <div class="coupons-page">
+  <div class="my-coupons-page">
     <div class="status">
       <div class="item" :class="{active: status === 'unused'}" @click.stop="setStatus('unused')">未使用</div>
       <div class="item" :class="{active: status === 'used'}" @click.stop="setStatus('used')">已使用</div>
@@ -55,7 +55,7 @@ import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { LoadMore } from 'vux'
 export default {
-  name: 'coupons',
+  name: 'my_coupons',
   components: { LoadMore },
   inject: ['reload'], // 引入方法
   data () {
@@ -172,7 +172,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   @import "../assets/css/common";
   @keyframes myopacity
   {
@@ -186,7 +186,7 @@ export default {
     from {opacity:1;}
     to {opacity:0;}
   }
-  .coupons-page {
+  .my-coupons-page {
     height: 100%;
     background:rgba(242,244,247,1);
     padding-top: 14.5px;
