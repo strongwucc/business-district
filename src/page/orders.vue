@@ -11,7 +11,17 @@
         <li class="item" v-for="(order, orderIndex) in orders" :key="orderIndex">
           <div class="up-info">
             <div class="left">
-              <div class="title">{{order.source}}</div>
+              <div class="title">
+                <template v-if="order.platform === 'o2o' && order.source === '01'">
+                  停车缴费
+                </template>
+                <template v-else-if="order.platform === 'o2o' && order.source === '02'">
+                  优惠券
+                </template>
+                <template v-else>
+                  {{order.source}}
+                </template>
+              </div>
               <div class="amount">
                 <span class="label">订单金额：</span>
                 <span class="content">￥ {{order.pay_amount}}</span>
