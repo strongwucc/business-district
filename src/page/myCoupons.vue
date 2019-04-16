@@ -115,7 +115,7 @@ export default {
         }
         if (this.scroll) {
           this.$nextTick(() => {
-            this.refresh()
+            this.initScroll()
           })
         } else {
           this.$nextTick(() => {
@@ -231,9 +231,11 @@ export default {
     }
     .coupons-wrapper{
       background:rgba(242,244,247,1);
-      margin-top: 44px;
       padding: 0 10px;
+      height: 100%;
+      overflow: hidden;
       .wrapper-content {
+        padding-top: 44px;
         .item{
           margin-top: 10.5px;
           height:127.5px;

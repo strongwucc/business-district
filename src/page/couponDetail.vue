@@ -1,6 +1,6 @@
 <template>
-  <div class="coupon-detail-page">
-    <div class="content">
+  <div class="coupon-detail-page" ref="couponDetailPage">
+    <div class="content" ref="content">
       <div class="left-count">剩余<span>{{coupon.quantity}}</span>张</div>
       <div class="title">{{coupon.title}}</div>
       <div class="description">{{coupon.description}}</div>
@@ -11,12 +11,12 @@
       <div class="get-limit">每人限购{{coupon.get_limit}}张</div>
       <div class="expire-time">有效期：{{coupon.expire_date}}</div>
       <div class="item notice">
-        <div class="notice-title" @click.stop="showNotice = true">
+        <div class="notice-title" @click.stop="showNotice = true;resetHeight()">
           <span class="txt">使用须知</span>
           <img v-show="!showNotice" src="../assets/img/base/icon_arrow_down@2x.png"/>
         </div>
         <div v-show="showNotice" class="notice-content">{{coupon.notice}}</div>
-        <div v-show="showNotice" class="action-up" @click.stop="showNotice = false"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
+        <div v-show="showNotice" class="action-up" @click.stop="showNotice = false;resetHeight()"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
       </div>
       <div class="item store">
         <div class="notice-title">
@@ -51,6 +51,7 @@
 
 <script>
 import { baseRedirectUrl, appId } from '../../src/config/env'
+import { getRect } from '../../src/assets/js/dom'
 export default {
   name: 'coupon_detail',
   components: {},
@@ -136,6 +137,14 @@ export default {
     },
     showCoupon () {
       this.$router.push('/coupon_show')
+    },
+    resetHeight () {
+      this.$nextTick(() => {
+        let clientHeight = document.body.clientHeight
+        let contentHeight = getRect(this.$refs.content).height
+        let newPageHeight = contentHeight < clientHeight ? clientHeight : contentHeight
+        this.$refs.couponDetailPage.style.height = (newPageHeight + 40) + 'px'
+      })
     }
   }
 }

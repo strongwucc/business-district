@@ -1,6 +1,6 @@
 <template>
-  <div class="coupon-show-page">
-    <div class="content">
+  <div class="coupon-show-page" ref="couponShowPage">
+    <div class="content" ref="content">
       <div class="title">{{coupon.title}}</div>
       <div class="description">{{coupon.description}}</div>
       <div class="code" v-if="coupon.id">
@@ -15,8 +15,8 @@
       </div>
       <div class="get-limit">每人限购{{coupon.get_limit}}张</div>
       <div class="expire-time">有效期：{{coupon.begin_date_time}}-{{coupon.end_date_time}}</div>
-      <div class="item order-info is-first" v-if="coupon.order.orderNo">
-        <div class="notice-title" @click.stop="showOrder = true">
+      <div class="item order-info is-first" v-if="coupon.order && coupon.order.orderNo">
+        <div class="notice-title" @click.stop="showOrder = true;resetHeight()">
           <span class="txt">订单详情</span>
           <img v-show="!showOrder" src="../assets/img/base/icon_arrow_down@2x.png"/>
         </div>
@@ -34,15 +34,15 @@
             <span>{{coupon.order.tranRime}}</span>
           </div>
         </div>
-        <div v-show="showOrder" class="action-up" @click.stop="showOrder = false"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
+        <div v-show="showOrder" class="action-up" @click.stop="showOrder = false;resetHeight()"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
       </div>
-      <div class="item notice" :class="{'is-first': !coupon.order.orderNo}">
-        <div class="notice-title" @click.stop="showNotice = true">
+      <div class="item notice" :class="{'is-first': !coupon.order || !coupon.order.orderNo}">
+        <div class="notice-title" @click.stop="showNotice = true;resetHeight()">
           <span class="txt">使用须知</span>
           <img v-show="!showNotice" src="../assets/img/base/icon_arrow_down@2x.png"/>
         </div>
         <div v-show="showNotice" class="notice-content">{{coupon.notice}}</div>
-        <div v-show="showNotice" class="action-up" @click.stop="showNotice = false"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
+        <div v-show="showNotice" class="action-up" @click.stop="showNotice = false;resetHeight()"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
       </div>
       <div class="item store">
         <div class="notice-title">
@@ -79,6 +79,7 @@
 import Barcode from '@xkeshi/vue-barcode'
 import Qrcode from '@chenfengyuan/vue-qrcode'
 import { Swiper, SwiperItem } from 'vux'
+import { getRect } from '../../src/assets/js/dom'
 export default {
   name: 'coupon_show',
   components: { Barcode, Qrcode, Swiper, SwiperItem },
@@ -114,6 +115,14 @@ export default {
           this.coupon = res
         } else {
         }
+      })
+    },
+    resetHeight () {
+      this.$nextTick(() => {
+        let clientHeight = document.body.clientHeight
+        let contentHeight = getRect(this.$refs.content).height
+        let newPageHeight = contentHeight < clientHeight ? clientHeight : contentHeight
+        this.$refs.couponShowPage.style.height = (newPageHeight + 40) + 'px'
       })
     }
   }

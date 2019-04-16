@@ -233,6 +233,8 @@ export default {
     .orders-wrapper{
       background:rgba(242,244,247,1);
       /*margin-top: 64.5px;*/
+      height: 100%;
+      overflow: hidden;
       .wrapper-content {
         padding-top: 44px;
         .item{
