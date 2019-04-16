@@ -199,7 +199,7 @@ export default {
       }
       this.$vux.loading.show({})
       this.posting = true
-      this.$http.post(this.API.receiveCoupon, {pcid: pcid}).then(res => {
+      this.$http.post(this.API.receiveCoupon, {pcid: pcid, frontUrl: baseRedirectUrl + '/coupon.html'}).then(res => {
         this.posting = false
         this.$vux.loading.hide()
         if (typeof res.payUrl === 'undefined') {
