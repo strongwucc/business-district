@@ -88,7 +88,7 @@
                   <img src="../assets/img/merchant_detail/tab_yilin@2x.png" v-else/>
                 </div>
                 <div class="money" v-if="coupon.is_buy === '2'">售价：<span>{{coupon.sale_price}}</span>元</div>
-                <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="">立即使用</div>
+                <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="showCoupon()">立即使用</div>
                 <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">购买</div>
                 <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">领取</div>
                 <div v-else-if="coupon.quantity <= 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">已领完</div>
@@ -332,8 +332,8 @@ export default {
             text: '<span style="font-size: 14px">领取成功</span>',
             position: 'middle'
           })
-          this.coupon.quantity = this.coupon.quantity - 1
-          this.coupon.user_count = this.coupon.user_count + 1
+          this.merchant.coupons[couponIndex].quantity = this.merchant.coupons[couponIndex].quantity - 1
+          this.merchant.coupons[couponIndex].user_count = this.merchant.coupons[couponIndex].user_count + 1
           return true
         } else {
           window.location.href = res.payUrl
@@ -417,6 +417,9 @@ export default {
           position: 'middle'
         })
       })
+    },
+    showCoupon () {
+      this.$router.push('/coupon_show')
     }
   }
 }
