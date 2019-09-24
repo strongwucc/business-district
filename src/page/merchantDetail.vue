@@ -385,7 +385,9 @@ export default {
         return false
       }
 
-      let postUrl = this.merchant.sdm + '/index.php/openapi/catering_route/platform_oauth'
+      let prefix = /^http(.*)$/.test(this.merchant.sdm) ? '' : 'http://'
+
+      let postUrl = prefix + this.merchant.sdm + '/index.php/openapi/catering_route/platform_oauth'
       let mobile = this.userInfo.mobile
       let platformId = this.userInfo.member_id
 
