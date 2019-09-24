@@ -24,22 +24,22 @@
           </swiper>
         </div>
         <div class="navs">
-          <!--<div class="banner-item" v-for="(type, typeIndex) in merchantTypes" :key="typeIndex" @click.stop="viewMerchantList(type.code, type.name)">-->
-            <!--<img :src="type.pic|upload"/>-->
-            <!--<span>{{type.name}}</span>-->
+          <div class="banner-item" v-for="(type, typeIndex) in merchantTypes" :key="typeIndex" @click.stop="viewMerchantList(type.code, type.name)">
+            <img :src="type.pic|upload"/>
+            <span>{{type.name}}</span>
+          </div>
+          <!--<div class="banner-item" @click.stop="viewMerchantList(1000, '美食')">-->
+            <!--<img src="../assets/img/home/home_mk_meishi@2x.png"/>-->
+            <!--<span>美食</span>-->
           <!--</div>-->
-          <div class="banner-item" @click.stop="viewMerchantList(1000, '美食')">
-            <img src="../assets/img/home/home_mk_meishi@2x.png"/>
-            <span>美食</span>
-          </div>
-          <div class="banner-item" @click.stop="viewMerchantList(2000, '购物')">
-            <img src="../assets/img/home/home_mk_gouwu@2x.png"/>
-            <span>购物</span>
-          </div>
-          <div class="banner-item" @click.stop="viewMerchantList(3000, '娱乐')">
-            <img src="../assets/img/home/home_mk_yule@2x.png"/>
-            <span>娱乐</span>
-          </div>
+          <!--<div class="banner-item" @click.stop="viewMerchantList(2000, '购物')">-->
+            <!--<img src="../assets/img/home/home_mk_gouwu@2x.png"/>-->
+            <!--<span>购物</span>-->
+          <!--</div>-->
+          <!--<div class="banner-item" @click.stop="viewMerchantList(3000, '娱乐')">-->
+            <!--<img src="../assets/img/home/home_mk_yule@2x.png"/>-->
+            <!--<span>娱乐</span>-->
+          <!--</div>-->
           <div class="banner-item">
             <img src="../assets/img/home/home_mk_tinche@2x.png"/>
             <span>停车</span>
@@ -70,7 +70,8 @@
           <div class="content">
             <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex" @click.stop="viewMerchantDetail(merchant.mer_id)">
               <div class="logo">
-                <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
+                <img v-if="merchant.pic" class="normal" :src="merchant.pic|upload"/>
+                <img class="default" src="../assets/img/base/icon_goods_default@2x.png" v-else />
               </div>
               <div class="name">{{merchant.name}}</div>
               <div class="price">￥{{merchant.per_cost}}/人</div>
@@ -431,6 +432,10 @@ export default {
                 align-items: center;
                 justify-content: center;
                 height: 112.5px;
+                .normal {
+                  width: 100%;
+                  height: 100%;
+                }
                 .default {
                   width: 50px;
                   height: 50px;

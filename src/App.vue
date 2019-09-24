@@ -2,21 +2,21 @@
   <div id="app">
     <router-view v-if="isRouterAlive" />
     <div class="tabbar" v-show="showTabbar">
-      <div class="tabbar-item" @click.stop="$router.push({name: 'home'})">
+      <div class="tabbar-item" @click.prevent.stop="$router.push({name: 'home'})">
         <div class="icon">
           <img v-if="routeName === 'home'" src="./assets/img/base/buttom_shouye_press@2x.png"/>
           <img src="./assets/img/base/buttom_shouye_normal@2x.png" v-else/>
         </div>
         <div class="txt" :class="{active: routeName === 'home'}">首页</div>
       </div>
-      <div class="tabbar-item" @click.stop="$router.push({name: 'merchant'})">
+      <div class="tabbar-item" @click.prevent.stop="$router.push({name: 'merchant'})">
         <div class="icon">
           <img v-if="routeName === 'merchant'" src="./assets/img/base/buttom_shanghu_press@2x.png"/>
           <img src="./assets/img/base/buttom_shanghu_normal@2x.png" v-else/>
         </div>
         <div class="txt" :class="{active: routeName === 'merchant'}">商户</div>
       </div>
-      <div class="tabbar-item" @click.stop="$router.push({name: 'center'})">
+      <div class="tabbar-item" @click.prevent.stop="$router.push({name: 'center'})">
         <div class="icon">
           <img v-if="routeName === 'center'" src="./assets/img/base/buttom_huiyuan_press@2x.png"/>
           <img src="./assets/img/base/buttom_huiyuan_normal@2x.png" v-else/>

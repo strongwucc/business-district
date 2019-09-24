@@ -740,6 +740,7 @@ export default {
                   font-weight:400;
                   line-height:15.5px;
                   color:rgba(102,102,102,1);
+                  width: 189px;
                 }
               }
             }

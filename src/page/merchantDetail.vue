@@ -107,7 +107,8 @@
           <div class="content">
             <div class="item" v-for="(merchant, merchantIndex) in hotMerchants" :key="merchantIndex" @click.stop="viewMerchantDetail(merchant.mer_id)">
               <div class="logo">
-                <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
+                <img v-if="merchant.pic" class="normal" :src="merchant.pic|upload"/>
+                <img class="default" src="../assets/img/base/icon_goods_default@2x.png" v-else />
               </div>
               <div class="name">{{merchant.name}}</div>
               <div class="price">￥{{merchant.per_cost}}/人</div>
@@ -388,8 +389,8 @@ export default {
       let mobile = this.userInfo.mobile
       let platformId = this.userInfo.member_id
 
-      // let signStr = 'mobile=' + mobile + '&platform_id=' + platformId + '&' + md5(this.merId)
-      let signStr = 'mobile=' + mobile + '&platform_id=' + platformId + '&' + md5('99904081602435')
+      let signStr = 'mobile=' + mobile + '&platform_id=' + platformId + '&' + md5(this.merId)
+      // let signStr = 'mobile=' + mobile + '&platform_id=' + platformId + '&' + md5('99904081602435')
       let _this = this
       let sign = md5(signStr)
 
@@ -771,6 +772,10 @@ export default {
                 align-items: center;
                 justify-content: center;
                 height: 112.5px;
+                .normal {
+                  width: 100%;
+                  height: 100%;
+                }
                 .default {
                   width: 50px;
                   height: 50px;
