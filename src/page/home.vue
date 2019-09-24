@@ -19,7 +19,7 @@
         <div class="banners">
           <swiper auto  dots-position="center">
             <swiper-item v-for="(item, index) in banners" :key="index">
-              <img :src="item.pic" @click.stop="bannerUrl(item.url)"/>
+              <img :src="item.pic | upload" @click.stop="bannerUrl(item.url)"/>
             </swiper-item>
           </swiper>
         </div>

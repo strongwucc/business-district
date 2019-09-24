@@ -105,7 +105,7 @@ Vue.filter('upload', function (item) {
   if (/^http(.*)$/.test(item)) {
     return item
   } else {
-    return uploadUrl + item
+    return uploadUrl + '/uploads/' + item
   }
 })
 

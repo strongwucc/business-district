@@ -86,7 +86,8 @@
         <div class="merchants" v-if="merchants.length > 0">
           <div class="merchant" v-for="(merchant, merchantIndex) in merchants" :key="merchantIndex" @click.stop="viewMerchantDetail(merchant.mer_id)">
             <div class="logo">
-              <img class="default" src="../assets/img/base/icon_goods_default@2x.png"/>
+              <img v-if="merchant.pic" class="normal" :src="merchant.pic|upload"/>
+              <img class="default" src="../assets/img/base/icon_goods_default@2x.png" v-else/>
             </div>
             <div class="info">
               <div class="name">{{merchant.name}}</div>
@@ -683,6 +684,10 @@ export default {
             .logo {
               width: 100px;
               height: 100%;
+              .normal {
+                width: 100px;
+                height:66px;
+              }
               .default {
                 width: 50px;
                 height: 50px;
