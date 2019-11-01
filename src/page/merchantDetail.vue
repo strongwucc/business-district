@@ -25,21 +25,21 @@
           </div>
           <div class="price">人均 ￥{{merchant.cost}}/人</div>
           <div class="params">
-            <div class="item">
-              <img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>包厢</span>
+            <div class="item" v-for="title in merchant.titles" :key="title.type_code">
+              <img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>{{title.type_name}}</span>
             </div>
-            <div class="item">
-              <img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>WI-FI</span>
-            </div>
-            <div class="item">
-              <img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>停车</span>
-            </div>
-            <div class="item">
-              <img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>排队</span>
-            </div>
-            <div class="item">
-              <img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>预约</span>
-            </div>
+            <!--<div class="item">-->
+              <!--<img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>WI-FI</span>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+              <!--<img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>停车</span>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+              <!--<img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>排队</span>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+              <!--<img src="../assets/img/merchant_detail/icon_tick@2x.png"/><span>预约</span>-->
+            <!--</div>-->
           </div>
           <div class="time-addr">
             <div class="item time">
