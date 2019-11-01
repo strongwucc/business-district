@@ -40,10 +40,10 @@
             <!--<img src="../assets/img/home/home_mk_yule@2x.png"/>-->
             <!--<span>娱乐</span>-->
           <!--</div>-->
-          <div class="banner-item">
-            <img src="../assets/img/home/home_mk_tinche@2x.png"/>
-            <span>停车</span>
-          </div>
+          <!--<div class="banner-item">-->
+            <!--<img src="../assets/img/home/home_mk_tinche@2x.png"/>-->
+            <!--<span>停车</span>-->
+          <!--</div>-->
         </div>
         <div class="coupons" @click.stop="goCouponsCenter">
           <img src="../assets/img/home/home_rk-lingquan@2x.png"/>

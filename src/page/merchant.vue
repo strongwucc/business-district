@@ -313,7 +313,7 @@ export default {
       this.$refs.parentTypeWrapper.style.minHeight = `${getRect(this.$refs.parentTypeWrapper).height + 1}px`
       let options = {
         probeType: 1,
-        click: true,
+        click: false,
         pullUpLoad: true
       }
       this.parentTypeScroll = new BScroll(this.$refs.parentTypeWrapper, options)
@@ -325,7 +325,7 @@ export default {
       // this.$refs.childTypeWrapper.style.minHeight = `${getRect(this.$refs.childTypeWrapper).height + 1}px`
       let options = {
         probeType: 1,
-        click: true,
+        click: false,
         pullUpLoad: true
       }
       this.childTypeScroll = new BScroll(this.$refs.childTypeWrapper, options)

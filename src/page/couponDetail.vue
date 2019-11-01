@@ -19,10 +19,17 @@
         <div v-show="showNotice" class="action-up" @click.stop="showNotice = false;resetHeight()"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
       </div>
       <div class="item store">
-        <div class="notice-title">
+        <div class="notice-title" @click.stop="showStores = true;resetHeight()">
           <span class="txt">适用门店</span>
-          <img src="../assets/img/base/icon_arrow_down@2x.png"/>
+          <img v-show="!showStores" src="../assets/img/base/icon_arrow_down@2x.png"/>
         </div>
+        <div v-show="showStores" class="notice-content">
+          <div class="notice-content-item" v-for="merchant in coupon.merchants" :key="merchant.mer_id">
+            <span class="store-name">{{merchant.mer_name}}</span>
+            <span class="open-time">（营业时间：{{merchant.open_time}}）</span>
+          </div>
+        </div>
+        <div v-show="showStores" class="action-up" @click.stop="showStores = false;resetHeight()"><img src="../assets/img/base/icon_arrow_up@2x.png"/></div>
       </div>
     </div>
     <div class="circles">
@@ -61,6 +68,7 @@ export default {
       pcId: '',
       coupon: {},
       showNotice: false,
+      showStores: false,
       posting: false
     }
   },
@@ -261,6 +269,9 @@ export default {
           line-height:17px;
           color:rgba(102,102,102,1);
           text-align: left;
+          .notice-content-item{
+            margin-bottom: 10px;
+          }
         }
         .action-up {
           height: 25px;

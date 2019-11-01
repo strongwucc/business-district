@@ -17,7 +17,7 @@
       </div>
       <div class="item sms-code">
         <span class="label">验证码</span>
-        <input v-model="smsCode" placeholder="请输入验证码"/>
+        <input v-model="smsCode" maxlength="4" placeholder="请输入验证码"/>
         <span class="action" v-show="canSendMsg" @click.stop="sendMsg">发送验证码</span>
         <span class="seconds" v-show="!canSendMsg">{{seconds}}秒重发</span>
       </div>
