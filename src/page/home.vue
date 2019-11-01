@@ -40,10 +40,10 @@
             <!--<img src="../assets/img/home/home_mk_yule@2x.png"/>-->
             <!--<span>娱乐</span>-->
           <!--</div>-->
-          <!--<div class="banner-item">-->
-            <!--<img src="../assets/img/home/home_mk_tinche@2x.png"/>-->
-            <!--<span>停车</span>-->
-          <!--</div>-->
+          <div class="banner-item" @click.stop="goParking">
+            <img src="../assets/img/home/home_mk_tinche@2x.png"/>
+            <span>停车</span>
+          </div>
         </div>
         <div class="coupons" @click.stop="goCouponsCenter">
           <img src="../assets/img/home/home_rk-lingquan@2x.png"/>
@@ -235,6 +235,9 @@ export default {
     },
     viewActivity (url) {
       window.location.href = url
+    },
+    goParking () {
+      window.location.href = 'http://yanshi.yklsq.etonepay.com/parking/#/home?phone=&member=114706053265883136&openid=oQtrs58bNzOJQC_-VlOHOZ1hOYjI&point=7881&parkingId=1'
     }
   }
 }

@@ -35,7 +35,10 @@
           </div>
         </div>
         <div ref="childTypeWrapper" class="child-type">
-          <div class="child-type-content">
+          <div class="child-type-content" v-if="childTypes.length == 0 && pCode != 0">
+            <div class="child-type-item" @click.stop="setChildType(pCode, '全部')" :class="{active: pCode == cCode}">全部</div>
+          </div>
+          <div class="child-type-content" v-else-if="childTypes.length > 0">
             <div class="child-type-item" v-for="(childType, childTypeIndex) in childTypes" :key="childTypeIndex" :class="{active: childType.code == cCode}" @click.stop="setChildType(childType.code, childType.name)">{{childType.name}}</div>
           </div>
         </div>
