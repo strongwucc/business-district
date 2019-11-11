@@ -3,8 +3,8 @@
     <div class="input-area">
       <div class="input">
         <img class="icon" src="../assets/img/base/icon_search@2x.png"/>
-        <form action="#">
-          <input type="search" v-model="searchKey" placeholder="输入商户名称"/>
+        <form action="#" @submit.prevent="searchByKeywords (searchKey)">
+          <input type="search" autocomplete="off" v-model="searchKey" placeholder="输入商户名称"/>
         </form>
         <img class="del" src="../assets/img/base/icon_del@2x.png" @click.stop="delSearchKey"/>
       </div>
@@ -134,8 +134,12 @@ export default {
         }
         form {
           width: 100%;
+          height: 35px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           input {
-            height:20px;
+            height:35px;
             width: 100%;
             font-size:14px;
             font-weight:400;

@@ -7,7 +7,7 @@
     </div>
     <div ref="couponsWrapper" class="coupons-wrapper" v-if="coupons.length > 0">
       <ul class="wrapper-content">
-        <li class="item" v-for="(coupon, couponIndex) in coupons" :key="couponIndex" @click.stop="showCouponDetail(coupon.id)">
+        <li class="item" v-for="(coupon, couponIndex) in coupons" :key="couponIndex" @click.stop="showCouponDetail(coupon.qrcode)">
           <div class="coupon-info">
             <div class="left">
               <img :src="coupon.logo|upload"/>

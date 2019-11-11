@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'bind_wechat',
   components: {},
@@ -43,6 +44,11 @@ export default {
   destroyed () {
   },
   methods: {
+    ...mapMutations([
+      'set_user_info',
+      'set_user_bind_status',
+      'set_user_login_status'
+    ]),
     getDistrictInfo () {
       this.$vux.loading.show({})
       this.$http.post(this.API.info).then(res => {
@@ -64,6 +70,7 @@ export default {
         this.posting = false
         if (res.access_token) {
           localStorage.setItem('access_token', res.access_token)
+          this.getUserInfo()
           if (this.redirect) {
             this.$router.push(this.redirect)
           } else {
@@ -75,6 +82,17 @@ export default {
             text: res.message ? '<span style="font-size: 14px">' + res.message + '</span>' : '<span style="font-size: 14px">授权失败</span>',
             position: 'middle'
           })
+        }
+      })
+    },
+    getUserInfo () {
+      this.$http.post(this.API.userInfo).then(res => {
+        if (res.member_id) {
+          let bindStatus = res.bound_phone ? 1 : 0
+          this.user = res
+          this.set_user_info(res)
+          this.set_user_bind_status(bindStatus)
+          this.set_user_login_status(1)
         }
       })
     }

@@ -30,7 +30,7 @@
               <p class="limit">每人限领{{coupon.get_limit}}张</p>
             </div>
           </div>
-          <div class="l_right">
+          <div class="l_right" @click.stop>
             <div class="got" v-if="coupon.user_count > 0">
               <img v-if="coupon.is_buy === '2'" src="../assets/img/merchant_detail/tab_yigou@2x.png"/>
               <img src="../assets/img/merchant_detail/tab_yilin@2x.png" v-else/>
