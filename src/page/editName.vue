@@ -2,7 +2,7 @@
   <div class="edit-name-page">
     <div class="edit-area">
       <input v-model="nickName" placeholder="请输入昵称"/>
-      <img @click.stop="emptyNickName" src="../assets/img/base/icon_del@2x.png"/>
+      <img v-show="nickName" @click.stop="emptyNickName" src="../assets/img/base/icon_del@2x.png"/>
     </div>
     <div class="btn" @click.stop="saveName">保存</div>
   </div>
@@ -56,10 +56,14 @@ export default {
         this.$vux.loading.hide()
         this.posting = false
         if (res.id) {
+          let vm = this
           this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">修改成功</span>',
-            position: 'middle'
+            position: 'middle',
+            onHide () {
+              vm.$router.go(-1)
+            }
           })
           this.set_user_info(res)
           return false

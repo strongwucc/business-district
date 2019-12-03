@@ -427,7 +427,7 @@ export default {
               margin-top: 10px;
               width:167.5px;
               box-shadow:0px 1px 7.5px rgba(0,0,0,0.1);
-              opacity:0.75;
+              /*opacity:0.75;*/
               border-radius:4px;
               padding-bottom: 15px;
               .logo {

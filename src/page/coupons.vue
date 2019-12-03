@@ -36,7 +36,7 @@
               <img src="../assets/img/merchant_detail/tab_yilin@2x.png" v-else/>
             </div>
             <div class="money" v-if="coupon.is_buy === '2'">售价：<span>{{coupon.sale_price|formatMoney}}</span>元</div>
-            <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="showCoupon()">立即使用</div>
+            <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action use" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="showCoupon()">立即使用</div>
             <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">购买</div>
             <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">领取</div>
             <div v-else-if="coupon.quantity <= 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}">已领完</div>
@@ -450,6 +450,11 @@ export default {
             }
             .no-left {
               background:rgba(221,221,221,1);
+            }
+            .use {
+              background: rgba(255,255,255,1);
+              border:1px solid rgba(249,83,73,1);
+              color:rgba(249,83,73,1);
             }
             .notice {
               position: relative;

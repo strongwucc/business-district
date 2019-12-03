@@ -2,6 +2,7 @@ import axios from 'axios'
 import router from '../router'
 import qs from 'qs'
 import { baseUrl, baseRedirectUrl, appId } from '../config/env'
+import vm from 'vue'
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers['Accept'] = 'application/prs.district.v1+json'
 axios.defaults.withCredentials = false
@@ -31,6 +32,7 @@ axios.interceptors.response.use(function (response) {
   // console.log(response)
   return response
 }, function (error) {
+  // console.log(error.response)
   if (error.response.status === 401 && error.config && !error.config.__isRetryRequest) {
     let accessToken = localStorage.getItem('access_token')
 
@@ -111,16 +113,25 @@ export default class http {
     return promiseAll
   }
   request (options) {
-    var promise = new Promise((resolve) => {
+    var promise = new Promise((resolve, reject) => {
       axios(options)
         .then((result) => {
           resolve(result.data)
         })
         .catch((error) => {
           if (error.response) {
+            if (error.response.status === 429) {
+              vm.$vux.toast.show({
+                type: 'text',
+                text: '<span style="font-size: 14px">您的操作太频繁啦，休息一下再试</span>',
+                position: 'middle'
+              })
+              reject(error.response.data)
+            } else {
+              resolve(error.response.data)
+            }
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
-            resolve(error.response.data)
           } else if (error.request) {
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of

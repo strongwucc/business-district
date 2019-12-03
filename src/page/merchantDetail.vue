@@ -78,7 +78,7 @@
                 <div class="coupon_text">
                   <p class="coupon-name">{{coupon.title}}</p>
                   <p class="use_conditions">{{coupon.description|longStrFormat(13)}}</p>
-                  <p class="use_conditions">{{coupon.notice}}</p>
+                  <p class="use_conditions">{{coupon.notice|longStrFormat(13)}}</p>
                   <p class="limit">每人限领{{coupon.get_limit}}张</p>
                 </div>
               </div>
@@ -87,7 +87,7 @@
                   <img v-if="coupon.card_type === 'CASH'" src="../assets/img/merchant_detail/tab_yigou@2x.png"/>
                   <img src="../assets/img/merchant_detail/tab_yilin@2x.png" v-else/>
                 </div>
-                <div class="money" v-if="coupon.is_buy === '2'">售价：<span>{{coupon.sale_price}}</span>元</div>
+                <div class="money" v-if="coupon.is_buy === '2'">售价：<span>{{coupon.sale_price|formatMoney(2)}}</span>元</div>
                 <div v-if="coupon.user_count > 0 && coupon.user_count >= coupon.get_limit" class="action" :class="{'need-buy': coupon.is_buy === '2'}" @click.stop="showCoupon()">立即使用</div>
                 <div v-else-if="coupon.is_buy === '2' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">购买</div>
                 <div v-else-if="coupon.is_buy === '1' && coupon.quantity > 0" class="action" :class="{'need-buy': coupon.is_buy === '2', 'no-left': coupon.quantity <= 0}" @click.stop="receive(coupon.id, couponIndex)">领取</div>
@@ -528,8 +528,8 @@ export default {
           }
           .time-addr {
             height: 80px;
-            border-top:1px solid rgba(229,229,229,1);
-            border-bottom:1px solid rgba(229,229,229,1);
+            border-top:1px solid #E5E5E5;
+            border-bottom:1px solid #E5E5E5;
             padding-top: 14.5px;
             .item {
               display: flex;
@@ -766,7 +766,7 @@ export default {
               margin-top: 10px;
               width:167.5px;
               box-shadow:0px 1px 7.5px rgba(0,0,0,0.1);
-              opacity:0.75;
+              /*opacity:0.75;*/
               border-radius:4px;
               padding-bottom: 15px;
               .logo {

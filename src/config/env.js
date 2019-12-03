@@ -13,10 +13,10 @@ let appId = 'wx583be2083a929fb0'
 let baseRedirectUrl = 'http://' + window.location.host
 
 if (process.env.NODE_ENV === 'development') {
-  // rootUrl = 'http://district.test'
+  rootUrl = 'http://district.test'
   // rootUrl = 'http://ceshi7.sdykt.com.cn:1280'
   // rootUrl = 'http://ycsq.yklsh.etonepay.com'
-  rootUrl = 'http://yanshi.yklsh.etonepay.com'
+  // rootUrl = 'http://yanshi.yklsh.etonepay.com'
   baseUrl = rootUrl + '/api/'
   // baseRedirectUrl = 'http://ceshi6.sdykt.com.cn:1280/business-district'
   baseRedirectUrl = 'http://yanshi.yklsh.etonepay.com/business-district'
@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
   // rootUrl = 'http://district.yklsh.etonepay.com'
   // baseUrl = rootUrl + '/api/'
   // baseRedirectUrl = 'http://district.yklsh.etonepay.com/business-district'
-  appId = 'wx583be2083a929fb0'
+  appId = 'wx142298ec31578aef'
   uploadUrl = 'http://' + window.location.host
 }
 

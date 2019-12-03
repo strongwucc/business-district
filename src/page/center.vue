@@ -80,10 +80,8 @@
         <div class="notice">如遇扫码失败</div>
         <div class="notice">请将屏幕调至最亮重新扫码</div>
         <div class="refresh">手动刷新动态码</div>
+        <div class="close" @click.stop="showCode = false">x</div>
       </div>
-    </transition>
-    <transition name="fade">
-      <div v-show="showCode" class="close" @click.stop="showCode = false">x</div>
     </transition>
   </div>
 </template>
@@ -351,7 +349,7 @@ export default {
       top:30px;
       left: 20.5px;
       width:334px;
-      height:460px;
+      /*height:460px;*/
       border-radius:4px;
       background:rgba(255,255,255,1);
       .padding {
@@ -389,9 +387,9 @@ export default {
         margin-bottom: 7px;
       }
       .refresh {
-        position: absolute;
+        position: relative;
         width: 100%;
-        bottom: 0;
+        top: 34px;
         height:44px;
         background:rgba(238,238,238,1);
         opacity:0.8;
@@ -401,18 +399,19 @@ export default {
         color:rgba(56,161,255,1);
         border-radius: 0 0 4px 4px;
       }
-    }
-    .close {
-      z-index: 99;
-      position: relative;
-      top:30px;
-      left: 171px;
-      width:34px;
-      height:34px;
-      background:rgba(102,102,102,1);
-      border-radius:50%;
-      line-height: 34px;
-      color: rgba(221,221,221,1);
+      .close {
+        position: relative;
+        top: 40px;
+        left: 150px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        line-height: 34px;
+        text-align: center;
+        background:rgba(102,102,102,1);
+        color: rgba(221,221,221,1);
+        font-size:14px;
+      }
     }
   }
 </style>

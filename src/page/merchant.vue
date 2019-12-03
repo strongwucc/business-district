@@ -687,6 +687,9 @@ export default {
             .logo {
               width: 100px;
               height: 100%;
+              img {
+                border-radius:4px;
+              }
               .normal {
                 width: 100px;
                 height:66px;
@@ -729,7 +732,7 @@ export default {
                   font-size:13px;
                   font-weight:400;
                   line-height:15.5px;
-                  color:rgba(102,102,102,1);
+                  color:#999999;
                 }
               }
               .addr {
@@ -747,7 +750,7 @@ export default {
                   font-size:12px;
                   font-weight:400;
                   line-height:15.5px;
-                  color:rgba(102,102,102,1);
+                  color:#999999;
                   width: 189px;
                 }
               }
