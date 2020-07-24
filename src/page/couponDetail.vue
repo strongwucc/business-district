@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { baseRedirectUrl, appId } from '../../src/config/env'
+import { baseRedirectUrl, appId, oauthBaseUrl } from '../../src/config/env'
 import { getRect } from '../../src/assets/js/dom'
 export default {
   name: 'coupon_detail',
@@ -117,7 +117,13 @@ export default {
             setTimeout(() => {
               let redirect = this.$router.currentRoute.fullPath
               let redirectUri = baseRedirectUrl + '/wechat.html'
-              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              let oauthUrl =
+                    oauthBaseUrl +
+                    '/weixin_redirect?redirect_uri=' +
+                    encodeURIComponent(redirectUri) +
+                    '&redirect=' +
+                    encodeURIComponent(redirect)
+              // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
               window.location.href = oauthUrl
             }, 2000)
             return false

@@ -231,7 +231,8 @@ export default {
       this.$router.push({name: 'merchant_detail', params: {merId: merId}})
     },
     goCouponsCenter () {
-      this.$router.push({name: 'coupons'})
+      // this.$router.push({name: 'coupons'})
+      window.location.href = 'http://' + window.location.host + '/district-coupon/#/coupons'
     },
     viewActivity (url) {
       window.location.href = url
