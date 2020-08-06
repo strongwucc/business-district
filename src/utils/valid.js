@@ -102,5 +102,11 @@ export default{
       return false
     };
     return true
+  },
+
+  // 判断是否 ios
+  is_ios: function () {
+    let u = navigator.userAgent
+    return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
   }
 }

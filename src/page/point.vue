@@ -62,6 +62,7 @@ import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { LoadMore } from 'vux'
 import { mapState } from 'vuex'
+import Valid from '../utils/valid'
 export default {
   name: 'point',
   components: { LoadMore },
@@ -78,6 +79,7 @@ export default {
       showLoading: false,
       scrolling: false,
       showDescription: false,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -142,7 +144,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.pointWrapper, options)
 

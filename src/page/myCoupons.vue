@@ -54,6 +54,7 @@
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { LoadMore } from 'vux'
+import Valid from '../utils/valid'
 export default {
   name: 'my_coupons',
   components: { LoadMore },
@@ -68,7 +69,8 @@ export default {
       scroll: '',
       pullUp: true,
       showLoading: false,
-      scrolling: false
+      scrolling: false,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -133,7 +135,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.couponsWrapper, options)
 

@@ -134,6 +134,7 @@ import { getRect } from '../../src/assets/js/dom'
 import { Swiper, SwiperItem, LoadMore, md5 } from 'vux'
 import { appId, baseRedirectUrl, oauthBaseUrl } from '../config/env'
 import { mapState } from 'vuex'
+import Valid from '../utils/valid'
 export default {
   name: 'merchant_detail',
   components: { Swiper, SwiperItem, LoadMore },
@@ -151,7 +152,8 @@ export default {
       showLoading: false,
       scrolling: false,
       posting: false,
-      showIntro: false
+      showIntro: false,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -231,7 +233,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.wrapper, options)
 

@@ -94,6 +94,7 @@ import axios from 'axios'
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { Swiper, SwiperItem, LoadMore } from 'vux'
+import Valid from '../utils/valid'
 export default {
   name: 'home',
   components: { Swiper, SwiperItem, LoadMore },
@@ -111,7 +112,8 @@ export default {
       pullUp: true,
       showLoading: false,
       scrolling: false,
-      posting: false
+      posting: false,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -193,7 +195,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.wrapper, options)
 
