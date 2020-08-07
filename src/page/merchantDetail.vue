@@ -277,7 +277,7 @@ export default {
               position: 'middle'
             })
             setTimeout(() => {
-              let redirect = this.$router.currentRoute.fullPath
+              let redirect = `/merchant_detail/${this.merId}`
               let redirectUri = baseRedirectUrl + '/wechat.html'
               let oauthUrl =
                     oauthBaseUrl +
@@ -321,7 +321,7 @@ export default {
               position: 'middle'
             })
             setTimeout(() => {
-              let redirect = this.$router.currentRoute.fullPath
+              let redirect = `/merchant_detail/${this.merId}`
               let redirectUri = baseRedirectUrl + '/wechat.html'
               let oauthUrl =
                     oauthBaseUrl +
@@ -379,7 +379,7 @@ export default {
           position: 'middle'
         })
         setTimeout(() => {
-          let redirect = this.$router.currentRoute.fullPath
+          let redirect = `/merchant_detail/${this.merId}`
           let redirectUri = baseRedirectUrl + '/wechat.html'
           let oauthUrl =
                     oauthBaseUrl +
@@ -400,8 +400,8 @@ export default {
           position: 'middle'
         })
         setTimeout(() => {
-          let redirect = this.$router.currentRoute.fullPath
-          this.$router.push({path: 'bind_mobile', query: {redirect: redirect}})
+          let redirect = `/merchant_detail/${this.merId}`
+          this.$router.push(`/bind_mobile?redirect=${redirect}`)
         }, 2000)
         return false
       }
