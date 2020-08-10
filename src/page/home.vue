@@ -28,22 +28,6 @@
             <img :src="type.pic|upload"/>
             <span>{{type.name}}</span>
           </div>
-          <!--<div class="banner-item" @click.stop="viewMerchantList(1000, '美食')">-->
-            <!--<img src="../assets/img/home/home_mk_meishi@2x.png"/>-->
-            <!--<span>美食</span>-->
-          <!--</div>-->
-          <!--<div class="banner-item" @click.stop="viewMerchantList(2000, '购物')">-->
-            <!--<img src="../assets/img/home/home_mk_gouwu@2x.png"/>-->
-            <!--<span>购物</span>-->
-          <!--</div>-->
-          <!--<div class="banner-item" @click.stop="viewMerchantList(3000, '娱乐')">-->
-            <!--<img src="../assets/img/home/home_mk_yule@2x.png"/>-->
-            <!--<span>娱乐</span>-->
-          <!--</div>-->
-          <div class="banner-item" @click.stop="goParking">
-            <img src="../assets/img/home/home_mk_tinche@2x.png"/>
-            <span>停车</span>
-          </div>
         </div>
         <div class="coupons" @click.stop="goCouponsCenter">
           <img src="../assets/img/home/home_rk-lingquan@2x.png"/>
@@ -344,14 +328,15 @@ export default {
           }
         }
         .navs {
-          padding: 20px 23px 0px 25.5px;
+          padding: 20px 0px 0px 0px;
           display: flex;
           justify-content: flex-start;
           flex-wrap: wrap;
           .banner-item {
             display: flex;
             flex-direction: column;
-            margin-right: 42px;
+            padding: 0 21px;
+            box-sizing: border-box;
             margin-bottom: 10px;
             img {
               width: 50px;
