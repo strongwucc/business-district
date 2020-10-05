@@ -121,6 +121,7 @@
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { LoadMore } from 'vux'
+import Valid from '../utils/valid'
 export default {
   name: 'merchant',
   components: { LoadMore },
@@ -152,7 +153,8 @@ export default {
       parentTypeScroll: '',
       childTypeScroll: '',
       pCode: 0,
-      cCode: 0
+      cCode: 0,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -283,7 +285,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.wrapper, options)
 
@@ -317,7 +320,8 @@ export default {
       let options = {
         probeType: 1,
         click: false,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.parentTypeScroll = new BScroll(this.$refs.parentTypeWrapper, options)
     },
@@ -329,7 +333,8 @@ export default {
       let options = {
         probeType: 1,
         click: false,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.childTypeScroll = new BScroll(this.$refs.childTypeWrapper, options)
     },

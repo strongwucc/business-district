@@ -59,6 +59,7 @@
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { LoadMore, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
+import Valid from '../utils/valid'
 export default {
   name: 'collection',
   components: { LoadMore, Swipeout, SwipeoutItem, SwipeoutButton },
@@ -74,7 +75,8 @@ export default {
       pullUp: true,
       showLoading: false,
       scrolling: false,
-      posting: false
+      posting: false,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -141,7 +143,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.collectionWrapper, options)
 

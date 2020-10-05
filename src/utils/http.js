@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from '../router'
 import qs from 'qs'
-import { baseUrl, baseRedirectUrl, appId } from '../config/env'
+import { baseUrl, baseRedirectUrl, appId, oauthBaseUrl } from '../config/env'
 import vm from 'vue'
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers['Accept'] = 'application/prs.district.v1+json'
@@ -40,7 +40,13 @@ axios.interceptors.response.use(function (response) {
     if (!accessToken && router.currentRoute.meta.auth === 1) {
       let redirect = router.currentRoute.fullPath
       let redirectUri = baseRedirectUrl + '/wechat.html'
-      let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+      let oauthUrl =
+                    oauthBaseUrl +
+                    '/weixin_redirect?redirect_uri=' +
+                    encodeURIComponent(redirectUri) +
+                    '&redirect=' +
+                    encodeURIComponent(redirect)
+      // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
       window.location.href = oauthUrl
       return Promise.reject(error)
     }
@@ -58,7 +64,13 @@ axios.interceptors.response.use(function (response) {
         if (router.currentRoute.meta.auth === 1) {
           let redirect = router.currentRoute.fullPath
           let redirectUri = baseRedirectUrl + '/wechat.html'
-          let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+          let oauthUrl =
+                    oauthBaseUrl +
+                    '/weixin_redirect?redirect_uri=' +
+                    encodeURIComponent(redirectUri) +
+                    '&redirect=' +
+                    encodeURIComponent(redirect)
+          // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
           window.location.href = oauthUrl
         }
         return Promise.reject(error)

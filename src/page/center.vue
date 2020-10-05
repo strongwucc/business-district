@@ -29,13 +29,14 @@
             <span>晚上好</span>
           </template>
         </div>
-        <div class="code" @click.stop="showCode = true">
+        <!-- <div class="code" @click.stop="showCode = true">
           <img class="icon" src="../assets/img/center/member_icon_erweima@2x.png"/>
           <span>会员码</span>
-        </div>
+        </div> -->
+        <div class="for-code"></div>
       </div>
     </div>
-    <div class="score-coupon">
+    <!-- <div class="score-coupon">
       <div class="item" @click.stop="showPoint">
         <span class="content">{{user.point}}</span>
         <span class="title">我的积分</span>
@@ -44,7 +45,7 @@
         <span class="content">{{user.coupon_sum}}</span>
         <span class="title">优惠券</span>
       </div>
-    </div>
+    </div> -->
     <div class="list">
       <div class="list-item" @click.stop="$router.push({path: '/user_info'})">
         <div class="left"><img src="../assets/img/center/member_icon_huiyuan@2x.png"/></div>
@@ -53,13 +54,20 @@
           <img src="../assets/img/base/icon_arrow_right@2x.png"/>
         </div>
       </div>
-      <div class="list-item" @click.stop="$router.push({path: '/orders'})">
+      <div class="list-item" @click.stop="myCoupons">
+        <div class="left"><img src="../assets/img/center/member_icon_order@2x.png"/></div>
+        <div class="right">
+          <span>我的优惠券</span>
+          <img src="../assets/img/base/icon_arrow_right@2x.png"/>
+        </div>
+      </div>
+      <!-- <div class="list-item" @click.stop="$router.push({path: '/orders'})">
         <div class="left"><img src="../assets/img/center/member_icon_order@2x.png"/></div>
         <div class="right">
           <span>我的订单</span>
           <img src="../assets/img/base/icon_arrow_right@2x.png"/>
         </div>
-      </div>
+      </div> -->
       <div class="list-item" @click.stop="$router.push({path: '/collection'})">
         <div class="left"><img src="../assets/img/center/member_icon_collect@2x.png"/></div>
         <div class="right">
@@ -139,6 +147,9 @@ export default {
           this.set_user_login_status(1)
         }
       })
+    },
+    myCoupons () {
+      window.location.href = 'http://' + window.location.host + '/district-coupon/#/my_coupons'
     }
   }
 }
@@ -233,6 +244,10 @@ export default {
             line-height:20px;
             color:rgba(51,51,51,1);
           }
+        }
+        .for-code {
+          width: 120.5px;
+          height: 53.5px;
         }
         .code {
           position: relative;

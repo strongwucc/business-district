@@ -64,7 +64,7 @@
             <img src="../assets/img/base/icon_arrow_up@2x.png"/>
           </div>
         </div>
-        <div class="coupons" v-if="merchant.coupons && merchant.coupons.data.length > 0">
+        <!-- <div class="coupons" v-if="merchant.coupons && merchant.coupons.data.length > 0">
           <div class="coupon-title">优惠券</div>
           <ul class="content">
             <li class="item" v-for="(coupon, couponIndex) in merchant.coupons.data" :key="couponIndex">
@@ -99,7 +99,7 @@
               <div class="border-down"></div>
             </li>
           </ul>
-        </div>
+        </div> -->
         <div class="merchants" v-if="hotMerchants.length > 0">
           <div class="title">
             热门商户
@@ -132,8 +132,9 @@ import axios from 'axios'
 import BScroll from 'better-scroll'
 import { getRect } from '../../src/assets/js/dom'
 import { Swiper, SwiperItem, LoadMore, md5 } from 'vux'
-import { appId, baseRedirectUrl } from '../config/env'
+import { appId, baseRedirectUrl, oauthBaseUrl } from '../config/env'
 import { mapState } from 'vuex'
+import Valid from '../utils/valid'
 export default {
   name: 'merchant_detail',
   components: { Swiper, SwiperItem, LoadMore },
@@ -151,7 +152,8 @@ export default {
       showLoading: false,
       scrolling: false,
       posting: false,
-      showIntro: false
+      showIntro: false,
+      ios: Valid.is_ios
     }
   },
   computed: {
@@ -231,7 +233,8 @@ export default {
       let options = {
         probeType: 1,
         click: true,
-        pullUpLoad: true
+        pullUpLoad: true,
+        useTransition: !this.ios
       }
       this.scroll = new BScroll(this.$refs.wrapper, options)
 
@@ -274,9 +277,15 @@ export default {
               position: 'middle'
             })
             setTimeout(() => {
-              let redirect = this.$router.currentRoute.fullPath
+              let redirect = `/merchant_detail/${this.merId}`
               let redirectUri = baseRedirectUrl + '/wechat.html'
-              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              let oauthUrl =
+                    oauthBaseUrl +
+                    '/weixin_redirect?redirect_uri=' +
+                    encodeURIComponent(redirectUri) +
+                    '&redirect=' +
+                    encodeURIComponent(redirect)
+              // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
               window.location.href = oauthUrl
             }, 2000)
             return false
@@ -312,9 +321,15 @@ export default {
               position: 'middle'
             })
             setTimeout(() => {
-              let redirect = this.$router.currentRoute.fullPath
+              let redirect = `/merchant_detail/${this.merId}`
               let redirectUri = baseRedirectUrl + '/wechat.html'
-              let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+              let oauthUrl =
+                    oauthBaseUrl +
+                    '/weixin_redirect?redirect_uri=' +
+                    encodeURIComponent(redirectUri) +
+                    '&redirect=' +
+                    encodeURIComponent(redirect)
+              // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
               window.location.href = oauthUrl
             }, 2000)
             return false
@@ -364,9 +379,15 @@ export default {
           position: 'middle'
         })
         setTimeout(() => {
-          let redirect = this.$router.currentRoute.fullPath
+          let redirect = `/merchant_detail/${this.merId}`
           let redirectUri = baseRedirectUrl + '/wechat.html'
-          let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
+          let oauthUrl =
+                    oauthBaseUrl +
+                    '/weixin_redirect?redirect_uri=' +
+                    encodeURIComponent(redirectUri) +
+                    '&redirect=' +
+                    encodeURIComponent(redirect)
+          // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + encodeURIComponent(redirectUri) + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(redirect) + '#wechat_redirect'
           window.location.href = oauthUrl
         }, 2000)
         return false
@@ -379,8 +400,8 @@ export default {
           position: 'middle'
         })
         setTimeout(() => {
-          let redirect = this.$router.currentRoute.fullPath
-          this.$router.push({path: 'bind_mobile', query: {redirect: redirect}})
+          let redirect = `/merchant_detail/${this.merId}`
+          this.$router.push(`/bind_mobile?redirect=${redirect}`)
         }, 2000)
         return false
       }

@@ -41,5 +41,6 @@ export {
   baseUrl,
   uploadUrl,
   appId,
-  baseRedirectUrl
-};
+  baseRedirectUrl,
+  oauthBaseUrl
+}
